@@ -31,21 +31,17 @@
 </body>
 
 <template name="hello">
-  <h1>Hello World!</h1>
+  <h1>Kudos Box!</h1>
   <div style="float:right">
   	{{loginButtons align="right"}}
   </div>
-  {{greeting}}
-  <input type="button" value="Click" />
 </template>
 
 <template name="kudo_form">
 	<form>
   <fieldset>
     <legend>Insert Kudo {{from}}</legend>
-    <label>To</label>
     <input type="text" placeholder="Who?" id="to">
-    <label>Text</label>
     <input type="text" placeholder="Why?" id="reason">
     <button class="btn">Submit</button>
   </fieldset>
@@ -55,14 +51,14 @@
 <template name="kudo_list">
   {{#each kudos}}
   	{{> kudo}}
-  {{else}}
-  	nothing to show
   {{/each}}
 </template>
 
 <template name="kudo">
-	<div class="player ">
-    	<span class="to">{{to}}</span>
+	<div class="kudo">
+		<span class ="date">{{when}}</span>: 
+    	<span class="from">{{from}}</span> wants to give some love to 
+    	<span class="to">{{to}}</span> beacuse
     	<span class="reason">{{reason}}</span>
-  	</div>
+    </div>
 </template>

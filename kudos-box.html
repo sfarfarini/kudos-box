@@ -48,12 +48,12 @@
 <template name="kudo_form">
 	<form id="kudo_form" class="form-inline">
   <fieldset>
-    <legend>Insert Kudo {{from}}</legend>
+    <legend>Insert Kudo {{profile.name}}</legend>
 
-    <input type="text" class="input-medium" placeholder="Who?" id="to">
+    <input type="text" class="input-medium" placeholder="Who?" id="to" autocomplete="off">
 
 
-    <input type="text" class="input-xlarge" placeholder="Why?" id="reason">
+    <input type="text" class="input-xlarge" placeholder="Why?" id="reason" autocomplete="off">
 
     <button class="btn btn-primary">Submit</button>
   </fieldset>
@@ -67,10 +67,12 @@
 </template>
 
 <template name="kudo">
-	<div class="kudo">
-		<span class ="date">{{when}}</span>: 
+	<div class="kudo" objId="{{_id}}">
     	<span class="from">{{from}}</span> <i>wants to give some love to</i>
     	<span class="to">{{to}}</span> <i>because</i>
     	<span class="reason">{{reason}}</span>
+        <i>
+            <span class="prettyTime" time="{{when}}">{{prettyWhen}}</span>
+        </i>
     </div>
 </template>

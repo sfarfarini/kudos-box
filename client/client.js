@@ -35,6 +35,11 @@ Template.kudo_form.events({
                 return false;
             }
 
+            if (theOne._id == Meteor._id) {
+                alert("Make love with somebody else, please!");
+                return false;
+            }
+
             $('#to').val('');
             $('#reason').val('');
 
@@ -63,10 +68,11 @@ Template.kudo.helpers({
         return moment(this.when).fromNow();
     }
     ,from: function() {
-        return Users.findOne(this.fromId).screenName();
+        return safeName(Users.findOne(this.fromId));
+
     }
     ,to: function() {
-        return Users.findOne(this.toId).screenName();
+        return safeName(Users.findOne(this.toId));
     }
 });
 
@@ -83,3 +89,11 @@ Meteor.setInterval(function() {
         $(this).html( moment( $(this).attr('time') ).fromNow() );
     });
 }, 5000);
+
+var safeName = function(user) {
+    if (user) {
+        return user.screenName();
+    } else {
+        return 'MISSING';
+    }
+}

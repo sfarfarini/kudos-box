@@ -10,9 +10,7 @@ Template.kudo_form.rendered = function() {
 
             users = pluck(users, 'profile');
             users = pluck(users, 'name');
-
-            console.log('found users:' + users.join(', '));
-
+            //console.log('found users:' + users.join(', '));
             return users; // call process(users) for async
         },
         items: 5
@@ -40,11 +38,13 @@ Template.kudo_form.events({
             $('#to').val('');
             $('#reason').val('');
 
-            Kudos.insert(new Kudo({
+            var kudo = new Kudo({
                 toId: theOne._id,
                 fromId: Meteor.user()._id,
                 reason: reason
-            }));
+            });
+
+            kudo.save();
 
         } else {
             alert('Are u making fun of me?');

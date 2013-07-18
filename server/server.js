@@ -5,42 +5,41 @@ Meteor.startup(function () {
     }
 
     var theBoss = user('_the_boss', 'The Boss');
-    var theObbiettore = user('_the_obbiettore', 'The Obbiettore');
+    var theObiettore = user('_the_obiettore', 'The Obiettore');
 
     if (Kudos.find().count() === 0) {
 
         var kudos = [
             {
                 fromId: theBoss._id,
-                toId: theObbiettore._id,
+                toId: theObiettore._id,
                 reason: "Mi piace un sacco sto roba"
             },
             {
-                fromId: theObbiettore._id,
+                fromId: theObiettore._id,
                 toId: theBoss._id,
                 reason: "Ma quanto mi piace!"
             }
         ];
 
         for (var i = 0; i < kudos.length; i++) {
-            Kudos.insert(new Kudo( kudos[i] ));
+            new Kudo( kudos[i]).save();
         }
 
     }
 });
-//
-//Meteor.publish('autocompleteUsers', function(query) {
-//
-//    console.log("server search " + query);
-//
-//    var users = Users.find({
-//        'profile.name': new RegExp(query, 'i')
-//    }, {limit: 5});
-//
-//    console.log("server search " + users.count());
-//
-//    return users;
-//});
+
+Accounts.onCreateUser(function(options, user) {
+    // We still want the default hook's 'profile' behavior.
+    if (options.profile)
+        user.profile = options.profile;
+
+    return user;
+});
+
+function getDomain(email) {
+    return email.replace(/.*@/, "");
+}
 
 function findOrCreate(test) {
 

@@ -10,7 +10,7 @@ Kudo.prototype = {
 
     save: function () {
         Kudos.insert(this);
-    }
+    },
 };
 
 // Define a Collection that uses Kudo as its document

@@ -12,6 +12,7 @@ User.prototype = {
     screenName: function () {
         return this.profile.name;
     }
+           
 };
 
 

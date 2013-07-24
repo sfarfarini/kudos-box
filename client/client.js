@@ -1,3 +1,20 @@
+Template.hello.received = function () {
+    user = Users.findOne(Meteor.userId());
+    if (user) {
+        return user.profile.received;
+    } else {
+        return 'You must first log in!';
+    }
+};
+
+Template.hello.sent = function () {
+    user = Users.findOne(Meteor.userId());
+    if (user) {
+        return user.profile.sent;
+    } else {
+        return 'You must first log in!';
+    }
+};
 
 
 Template.kudo_form.rendered = function() {
@@ -39,30 +56,29 @@ Template.kudo_form.events({
         if ( to != '' && reason != '' ) {
 
             var currentUser = Meteor.user();
+            //Session.set("currentUser", "Meteor.user()")
 
-            var theOne = Users.findOne({'profile.name': to});
+            var targetUser = Users.findOne({'profile.name': to});
+            //Session.set("theOne", "to")
 
-            if (theOne == null) {
+            if (targetUser == null) {
                 alert("I can't find this guy!");
                 return false;
             }
 
-            if (theOne._id === currentUser._id) {
+            if (targetUser._id === currentUser._id) {
                 alert("Make love with somebody else, please!");
                 return false;
             }
-
+            
             inputTo.value = '';
             inputReason.value = '';
-
-            var kudo = new Kudo({
-                toId: theOne._id,
-                fromId: currentUser._id,
-                reason: reason
+            
+            Meteor.call("emitKudo", targetUser, reason, function(error, result){
+                console.log('emitKudo '); 
+                console.log(result);
             });
-
-            kudo.save();
-
+            
         } else {
             alert('Are u making fun of me?');
         }
@@ -109,3 +125,8 @@ var safeName = function(user) {
         return 'MISSING';
     }
 };
+
+var giveKudo = function (user) {
+    
+}
+

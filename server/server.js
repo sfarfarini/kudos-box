@@ -1,11 +1,11 @@
 Meteor.startup(function () {
 
-    var user = function ( _id, name) {
-        return findOrCreate(new User({_id: _id, profile: {name: name} }));
+    var user = function ( _id, name, received, sent) {
+        return findOrCreate(new User({_id: _id, profile: {name: name, received: received, sent: sent }}));
     }
 
-    var theBoss = user('_the_boss', 'The Boss');
-    var theObiettore = user('_the_obiettore', 'The Obiettore');
+    var theBoss = user('_the_boss', 'The Boss', 0, 0);
+    var theObiettore = user('_the_obiettore', 'The Obiettore', 0, 0);
 
     if (Kudos.find().count() === 0) {
 
@@ -33,7 +33,13 @@ Accounts.onCreateUser(function(options, user) {
     // We still want the default hook's 'profile' behavior.
     if (options.profile)
         user.profile = options.profile;
-
+    else {  
+        user.profile = {}; 
+    }
+    
+    user.profile.sent = 0;
+    user.profile.received = 0;
+    
     return user;
 });
 
@@ -51,4 +57,23 @@ function findOrCreate(test) {
 
     return user;
 }
+
+Meteor.methods({
+  emitKudo: function (targetUser, reason) {
+        var currentUser = Meteor.user();
+        
+        Users.update(currentUser._id, {$inc: {'profile.sent': 1}});
+        Users.update(targetUser._id, {$inc: {'profile.received': 1}});
+
+        var kudo = new Kudo({
+              toId: targetUser._id,
+              fromId: currentUser._id,
+              reason: reason
+        });
+
+        kudo.save();
+        
+        return kudo;
+  }
+});
 

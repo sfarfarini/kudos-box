@@ -7,154 +7,19 @@
 {{> navbar}}
 
 <div class="container">
-    {{> hello}}
-
+    {{> login}}
     {{renderPage}}
-
 </div>
 </body>
-
-<template name="timeline">
-    {{> kudo_form}}
-    {{> kudo_list}}
-</template>
-
-<template name="showUser">
-
-    <div class="row">
-        <div class="span-2">
-            <img class="img-polaroid" width="60" src='{{user.services.google.picture}}'/>
-        </div>
-        <div class="span-10">
-            <h2>{{user.profile.name}}</h2>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="span-2">
-            Kudos: {{user.profile.sent}} / {{user.profile.received}}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="span-12">
-            {{> receivedKudos}}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="span-12">
-            {{> givenKudos}}
-        </div>
-    </div>
-
-</template>
-
-<template name="receivedKudos">
-
-    <h4>Received some:</h4>
-
-    {{#each kudos}}
-        {{> kudo}}
-    {{else}}
-        None.
-    {{/each}}
-</template>
-
-<template name="givenKudos">
-
-    <h4>Given some:</h4>
-
-    {{#each kudos}}
-        {{> kudo}}
-    {{else}}
-        None.
-    {{/each}}
-</template>
-
-<template name="balance">
-
-    {{#each users}}
-        <div>
-            <p>Name: {{profile.name}}</p>
-            <p>email: {{profile.email}}</p>
-            <p>domain: {{profile.domain}}</p>
-            <p>Balance: {{profile.sent}} / {{profile.received}}</p>
-        </div>
-    {{else}}
-        None.
-    {{/each}}
-
-    <button class="resetUsers btn btn-info">Fix Counters</button>
-
-</template>
-
 
 <template name="not_found">
     <h1>Ouch! Page not Found</h1>
 </template>
 
-<template name="navbar">
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="brand" href="#">Kudos Box</a>
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <li class="active">
-                            <a href="/">Home</a>
-                        </li>
-                        <li><a href="#about">About</a></li>
-                        <li><a class='drop' href="#">Drop kudos :(</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div><!--/.nav-collapse -->
-            </div>
-        </div>
-    </div>
 
-</template>
-
-<template name="hello">
-    <div style="float:right">
-        {{loginButtons align="right"}}
-    </div>
-</template>
-
-<template name="kudo_form">
-    <form id="kudo_form" class="form-inline">
-        <fieldset>
-            <legend>Insert Kudo {{profile.name}}</legend>
-            <input type="text" class="input-medium" placeholder="Who?" name="to" autocomplete="off">
-            <input type="text" class="input-xlarge" placeholder="Why?" name="reason" autocomplete="off">
-            <button class="btn btn-primary"> <span class="icon-gift icon-white"/> Submit</button>
-        </fieldset>
-    </form>
-</template>
-
-<template name="kudo_list">
-    {{#each kudos}}
-    {{> kudo}}
-    {{/each}}
-</template>
-
-<template name="kudo">
-    <div class="kudo" objId="{{_id}}">
-        <span class="from">
-            <a href="/users/{{from}}">{{from}}</a>
-        </span> <i>wants to give some love to</i>
-        <span class="to">
-            <a href="/users/{{to}}">{{to}}</a>
-        </span> <i>because</i>
-        <span class="reason">{{reason}}</span>
-        <i>
-            <span class="prettyTime" time="{{when}}">{{prettyWhen}}</span>
-        </i>
+<template name="login">
+    <div class='row'>
+        <div class='span-3 offset9'>{{loginButtons align="right"}}</div>
     </div>
 </template>

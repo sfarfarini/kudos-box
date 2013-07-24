@@ -1,0 +1,52 @@
+<template name="showUser">
+
+    <div class="row">
+        <div class="span-2">
+            <img class="img-polaroid" width="60" src='{{user.services.google.picture}}'/>
+        </div>
+        <div class="span-10">
+            <h2>{{user.profile.name}}</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span-2">
+            Kudos: {{user.profile.sent}} / {{user.profile.received}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span-12">
+            {{> receivedKudos}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span-12">
+            {{> givenKudos}}
+        </div>
+    </div>
+
+</template>
+
+<template name="receivedKudos">
+
+    <h4>Received some:</h4>
+
+    {{#each kudos}}
+    {{> kudo}}
+    {{else}}
+    None.
+    {{/each}}
+</template>
+
+<template name="givenKudos">
+
+    <h4>Given some:</h4>
+
+    {{#each kudos}}
+    {{> kudo}}
+    {{else}}
+    None.
+    {{/each}}
+</template>

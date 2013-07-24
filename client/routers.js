@@ -1,8 +1,15 @@
 
+Meteor.Router.beforeRouting = function() {
+    // anything you like before routing
+};
+
 Meteor.Router.add({
 
     '/': 'timeline',
+
     'timeline': 'timeline',
+
+    '/home': 'home',
 
     '/users/:screenName': function(screenName) {
         console.log('we are at ' + this.canonicalPath);

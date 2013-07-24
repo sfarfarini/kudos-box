@@ -1,21 +1,3 @@
-Template.hello.received = function () {
-    user = Users.findOne(Meteor.userId());
-    if (user) {
-        return user.profile.received;
-    } else {
-        return 'You must first log in!';
-    }
-};
-
-Template.hello.sent = function () {
-    user = Users.findOne(Meteor.userId());
-    if (user) {
-        return user.profile.sent;
-    } else {
-        return 'You must first log in!';
-    }
-};
-
 
 Template.kudo_form.rendered = function() {
     return $('input[name=to]').typeahead({
@@ -104,14 +86,6 @@ Template.kudo.helpers({
     }
 });
 
-Template.navbar.events({
-    'click a.drop': function() {
-        var one = Kudos.findOne({}, {sort: {when: -1}});
-        Kudos.remove(one._id);
-        return false;
-    }
-});
-
 Meteor.setInterval(function() {
     $('.prettyTime').each(function() {
         $(this).html( moment( $(this).attr('time') ).fromNow() );
@@ -123,26 +97,5 @@ var safeName = function(user) {
         return user.screenName();
     } else {
         return 'MISSING';
-    }
-};
-
-Template.showUser.user = function() {
-
-    return Users.findOne( Session.get( 'showUser._id' ) );
-}
-
-Template.receivedKudos.kudos = function() {
-    return Kudos.find({toId: Session.get( 'showUser._id' )});
-}
-Template.givenKudos.kudos = function() {
-    return Kudos.find({fromId: Session.get( 'showUser._id' )});
-}
-
-Template.balance.users = function() {
-    return Users.find({});
-}
-Template.balance.events = {
-    'click button.doFixZero': function() {
-        Meteor.call('initializeUserBalance');
     }
 };

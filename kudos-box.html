@@ -76,13 +76,16 @@
 
     {{#each users}}
         <div>
-            {{profile.name}} - ({{profile.sent}} / ({{profile.received}})
+            <p>Name: {{profile.name}}</p>
+            <p>email: {{profile.email}}</p>
+            <p>domain: {{profile.domain}}</p>
+            <p>Balance: {{profile.sent}} / {{profile.received}}</p>
         </div>
     {{else}}
         None.
     {{/each}}
 
-    <button class="doFixZero btn btn-info">Fix Counters</button>
+    <button class="resetUsers btn btn-info">Fix Counters</button>
 
 </template>
 

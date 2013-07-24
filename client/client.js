@@ -126,7 +126,15 @@ var safeName = function(user) {
     }
 };
 
-var giveKudo = function (user) {
-    
+Template.showUser.user = function() {
+
+    return Users.findOne( Session.get( 'showUser._id' ) );
+}
+
+Template.receivedKudos.kudos = function() {
+    return Kudos.find({toId: Session.get( 'showUser._id' )});
+}
+Template.givenKudos.kudos = function() {
+    return Kudos.find({fromId: Session.get( 'showUser._id' )});
 }
 

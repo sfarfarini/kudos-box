@@ -54,5 +54,11 @@ Meteor.methods({
         // Accounts.sendEnrollmentEmail
 
         return user;
+    },
+
+    // Temporary method
+    removeLastKudo: function() {
+        var one = Kudos.findOne({}, {sort: {when: -1}});
+        Kudos.remove(one._id);
     }
 });

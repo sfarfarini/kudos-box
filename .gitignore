@@ -3,3 +3,4 @@
 google.secret
 *.lock
 nbproject
+packages

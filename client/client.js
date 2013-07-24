@@ -4,3 +4,5 @@ Meteor.setInterval(function() {
         $(this).html( moment( $(this).attr('time') ).fromNow() );
     });
 }, 5000);
+
+

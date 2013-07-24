@@ -6,3 +6,5 @@ Template.navbar.events({
         return false;
     }
 });
+
+Template.navbar.helpers({});

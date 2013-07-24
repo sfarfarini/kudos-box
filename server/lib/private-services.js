@@ -3,23 +3,28 @@
 
 emitKudo = function(fromUser, toUser, reason) {
 
-    Users.update(fromUser._id, {$inc: {'profile.sent': 1}});
-    Users.update(toUser._id, {$inc: {'profile.received': 1}});
-
     var kudo = new Kudo({
         toId: toUser._id,
         fromId: fromUser._id,
+        domain: fromUser.profile.domain,
         reason: reason
     });
 
+    console.log("KUDO in {domain} from {from} to {to} because {reason} ".assign({
+        from: fromUser.profile.name,
+        to:   toUser.profile.name,
+        domain: kudo.domain,
+        reason: kudo.reason
+    }));
+
+    Users.update(this.fromId, {$inc: {'profile.sent': 1}});
+    Users.update(this.toId, {$inc: {'profile.received': 1}});
     kudo.save();
     return kudo;
 }
 
 setupUserProfileByService = function (profile, user) {
-    var getDomain = function (email) {
-        return email.replace(/.*@/, "");
-    }
+
 
     if (user.services) {
         if (user.services.google) {
@@ -30,3 +35,8 @@ setupUserProfileByService = function (profile, user) {
         }
     }
 }
+
+likeKudo = function (userId, kudoId) {
+    //var kudo = Kudos.findOne(kudoId);
+    Kudos.update({_id:kudoId}, { $addToSet: { likes: userId } });
+};

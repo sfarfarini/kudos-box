@@ -37,13 +37,16 @@ Template.kudo_form.events({
         if ( to != '' && reason != '' ) {
 
             var currentUser = Meteor.user();
-            //Session.set("currentUser", "Meteor.user()")
 
             var targetUser = Users.findOne({'profile.name': to});
-            //Session.set("theOne", "to")
 
             if (targetUser == null) {
-                alert("I can't find this guy!");
+                // test if it's a valid domain
+                if (to.indexOf( currentUser.profile.domain ) && isEmail(to)) {
+                    Meteor.call('newUserByEmail', to);
+                } else {
+                    alert("I can't find this guy!");
+                }
                 return false;
             }
 
@@ -73,6 +76,7 @@ Template.kudo_list.kudos = function () {
 };
 
 Template.kudo.helpers({
+
     prettyWhen: function () {
         return moment(this.when).fromNow();
     }
@@ -82,6 +86,28 @@ Template.kudo.helpers({
     }
     ,to: function() {
         return safeName(Users.findOne(this.toId));
+    },
+    totalLikes: function() {
+        // the IFerno!
+        if (this.likes) {
+            if (this.likes.any(Meteor.userId)) {
+                var youAndOthers = 'you';
+                if (this.likes.length > 1) {
+                    youAndOthers = youAndOthers + '+' + (this.likes.length-1);
+                }
+                return youAndOthers
+            } else {
+                return this.likes.length;
+            }
+        } else {
+            return 0;
+        }
+    }
+});
+
+Template.kudo.events({
+    'click a.like-it': function(event, templ) {
+        Meteor.call('likeKudo', this._id);
     }
 });
 

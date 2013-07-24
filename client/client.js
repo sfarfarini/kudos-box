@@ -138,3 +138,11 @@ Template.givenKudos.kudos = function() {
     return Kudos.find({fromId: Session.get( 'showUser._id' )});
 }
 
+Template.balance.users = function() {
+    return Users.find({});
+}
+Template.balance.events = {
+    'click button.doFixZero': function() {
+        Meteor.call('initializeUserBalance');
+    }
+};

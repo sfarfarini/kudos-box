@@ -2,6 +2,7 @@
 Meteor.Router.add({
 
     '/': 'timeline',
+    'timeline': 'timeline',
 
     '/users/:screenName': function(screenName) {
         console.log('we are at ' + this.canonicalPath);
@@ -17,5 +18,21 @@ Meteor.Router.add({
         }
     },
 
+    '/balance': 'balance',
+
     '*': 'not_found'
 });
+
+Meteor.Router.filters({
+    'checkLoggedIn': function(page) {
+        if (Meteor.loggingIn()) {
+            return 'loading';
+        } else if (Meteor.user()) {
+            return page;
+        } else {
+            return 'home';
+        }
+    }
+});
+
+Meteor.Router.filter('checkLoggedIn', {except: 'home'});

@@ -26,7 +26,7 @@
             <img class="img-polaroid" width="60" src='{{user.services.google.picture}}'/>
         </div>
         <div class="span-10">
-            <h4>{{user.profile.name}}</h4>
+            <h2>{{user.profile.name}}</h2>
         </div>
     </div>
 
@@ -51,6 +51,9 @@
 </template>
 
 <template name="receivedKudos">
+
+    <h4>Received some:</h4>
+
     {{#each kudos}}
         {{> kudo}}
     {{else}}
@@ -59,11 +62,28 @@
 </template>
 
 <template name="givenKudos">
+
+    <h4>Given some:</h4>
+
     {{#each kudos}}
         {{> kudo}}
     {{else}}
         None.
     {{/each}}
+</template>
+
+<template name="balance">
+
+    {{#each users}}
+        <div>
+            {{profile.name}} - ({{profile.sent}} / ({{profile.received}})
+        </div>
+    {{else}}
+        None.
+    {{/each}}
+
+    <button class="doFixZero btn btn-info">Fix Counters</button>
+
 </template>
 
 
@@ -99,7 +119,6 @@
 </template>
 
 <template name="hello">
-    <h1>Kudos Box!</h1>
     <div style="float:right">
         {{loginButtons align="right"}}
     </div>
@@ -124,8 +143,12 @@
 
 <template name="kudo">
     <div class="kudo" objId="{{_id}}">
-        <span class="from">{{from}}</span> <i>wants to give some love to</i>
-        <span class="to">{{to}}</span> <i>because</i>
+        <span class="from">
+            <a href="/users/{{from}}">{{from}}</a>
+        </span> <i>wants to give some love to</i>
+        <span class="to">
+            <a href="/users/{{to}}">{{to}}</a>
+        </span> <i>because</i>
         <span class="reason">{{reason}}</span>
         <i>
             <span class="prettyTime" time="{{when}}">{{prettyWhen}}</span>

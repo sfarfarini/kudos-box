@@ -18,14 +18,22 @@ Accounts.onCreateUser(function(options, user) {
     profile.received = 0;
 
     user.profile = profile;
+    
+    //conta admin
+    var adminCount = Users.find({'profile.admin': true, 'profile.domain': user.profile.domain}).count();
+    if (adminCount === 0) {
+        profile.admin = true;
+    }
 
     // no callback after user creation
     Meteor.setTimeout(function() {
 
         console.log('reconnect {1}'.assign(user.profile.email));
         reconnectAccounts(user.profile.email);
+        
 
     }, 500);
+   
 
     return user;
 });

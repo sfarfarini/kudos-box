@@ -20,6 +20,5 @@ if (Meteor.isServer) {
         });
     });
 
-
 }
 

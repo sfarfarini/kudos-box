@@ -11,6 +11,14 @@ Meteor.Router.add({
 
     '/home': 'home',
 
+    '/love/:id' : function(id) {
+        console.log('we are at ' + this.canonicalPath);
+        console.log("our parameters: " + this.params);
+
+        Session.set('love._id', id);
+        return 'love';
+    },
+
     '/users/:screenName': function(screenName) {
         console.log('we are at ' + this.canonicalPath);
         console.log("our parameters: " + this.params);
@@ -42,4 +50,4 @@ Meteor.Router.filters({
     }
 });
 
-Meteor.Router.filter('checkLoggedIn', {except: 'home'});
+Meteor.Router.filter('checkLoggedIn', {except: ['home', 'love'] });

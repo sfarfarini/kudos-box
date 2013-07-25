@@ -17,8 +17,8 @@ emitKudo = function(fromUser, toUser, reason) {
         reason: kudo.reason
     }));
 
-    Users.update(this.fromId, {$inc: {'profile.sent': 1}});
-    Users.update(this.toId, {$inc: {'profile.received': 1}});
+    Users.update(fromUser._id, {$inc: {'profile.sent': 1}});
+    Users.update(toUser._id, {$inc: {'profile.received': 1}});
     kudo.save();
     return kudo;
 }

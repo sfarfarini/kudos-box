@@ -14,9 +14,10 @@
                         <li class="active">
                             <a href="/">Timeline {{currentUser.profile.domain}}</a>
                         </li>
-                        <li><a href="/balance">Balance</a></li>
-                        <li><a class='drop' href="#">Drop kudos :(</a></li>
                         <li><a href="#contact">Contact</a></li>
+                        {{#if admin}}
+                            <li><a href="/admin">Admin</a></li>
+                        {{/if}}
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

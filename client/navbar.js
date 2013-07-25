@@ -1,9 +1,9 @@
 
-Template.navbar.events({
-    'click a.drop': function() {
-        Meteor.call('removeLastKudo');
+Template.navbar.admin = function() {
+    if (Meteor.userId()){
+         return Meteor.user().profile.admin;
+    } else
         return false;
-    }
-});
+};
 
 Template.navbar.helpers({});

@@ -35,6 +35,8 @@ Meteor.Router.add({
 
     '/balance': 'balance',
 
+    '/admin': 'admin',
+    
     '*': 'not_found'
 });
 
@@ -47,7 +49,17 @@ Meteor.Router.filters({
         } else {
             return 'home';
         }
-    }
+    },
+            
+    'checkAdmin' : function(page) {
+        if (Meteor.userId() && Meteor.user().profile.admin) {
+            return page;
+        } else {
+            throw new Meteor.Error(401, 'This page requires administration rights');
+        }
+    }    
 });
 
-Meteor.Router.filter('checkLoggedIn', {except: ['home', 'love'] });
+Meteor.Router.filter('checkLoggedIn', {except: ['home', 'love']});
+
+Meteor.Router.filter('checkAdmin', {only: 'admin'});

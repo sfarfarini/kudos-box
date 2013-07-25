@@ -52,18 +52,17 @@ Meteor.methods({
         };
 
         var user = new User({
-            profile:profile,
-            info: {referralUserId: Meteor.userId},
-            createdAt: new Date().time
+            profile: profile,
+            createdAt: new Date().getTime()
         });
+        user.info = {};
+        user.info.referralUserId = Meteor.userId();
 
-        Users.insert(user);
-//        Accounts.createUser({
-//            email: email,
-//            profile: profile
-//        });
-        // we should send him an email to join us.
-        // Accounts.sendEnrollmentEmail
+        var userId = Users.insert(user);
+
+        this.unblock();
+
+        sendInvitationEmail(userId);
 
         return user;
     },

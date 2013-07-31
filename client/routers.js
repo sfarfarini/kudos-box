@@ -11,6 +11,8 @@ Meteor.Router.add({
 
     '/home': 'home',
 
+    '/about': 'about',
+
     '/love/:id' : function(id) {
         console.log('we are at ' + this.canonicalPath);
         console.log("our parameters: " + this.params);
@@ -50,7 +52,7 @@ Meteor.Router.filters({
             return 'home';
         }
     },
-            
+
     'checkAdmin' : function(page) {
         if (Meteor.userId() && Meteor.user().profile.admin) {
             return page;
@@ -62,4 +64,4 @@ Meteor.Router.filters({
 
 Meteor.Router.filter('checkLoggedIn', {except: ['home', 'love']});
 
-Meteor.Router.filter('checkAdmin', {only: 'admin'});
+Meteor.Router.filter('checkAdmin', {only: ['admin', 'balance']});

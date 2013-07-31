@@ -40,6 +40,12 @@ likeKudo = function (userId, kudoId) {
     Kudos.update({_id:kudoId}, { $addToSet: { likes: userId } });
 };
 
+unlikeKudo = function (userId, kudoId) {
+
+    Kudos.update({_id:kudoId}, { $pull: { likes: userId } });
+};
+
+
 sendInvitationEmail = function(userId) {
 
     var invited = Users.findOne(userId);

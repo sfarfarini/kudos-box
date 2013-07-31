@@ -90,24 +90,34 @@ Template.kudo.helpers({
     totalLikes: function() {
         // the IFerno!
         if (this.likes) {
-            if (this.likes.any(Meteor.userId)) {
-                var youAndOthers = 'you';
-                if (this.likes.length > 1) {
-                    youAndOthers = youAndOthers + '+' + (this.likes.length-1);
-                }
-                return youAndOthers
-            } else {
-                return this.likes.length;
-            }
+            return likeCaption(this.likes);
         } else {
             return 0;
         }
     }
 });
 
+likeCaption = function(likes) {
+    if (_.contains(likes, Meteor.userId())) {
+        var youAndOthers = 'you';
+        if (likes.length > 1) {
+            youAndOthers = youAndOthers + '+' + (likes.length-1);
+        }
+        return youAndOthers
+    } else {
+        return likes.length;
+    }
+}
+
 Template.kudo.events({
     'click a.like-it': function(event, templ) {
-        Meteor.call('likeKudo', this._id);
+        if (_.contains(this.likes, Meteor.userId())) {
+            console.log('Like');
+            Meteor.call('unlikeKudo', this._id);
+        } else {
+            console.log('unLike');
+            Meteor.call('likeKudo', this._id);
+        }
     }
 });
 

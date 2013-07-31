@@ -2,10 +2,16 @@
 Meteor.methods({
 
     emitKudo: function (targetUser, reason) {
+
         return emitKudo(Meteor.user(), targetUser, reason);
     },
 
     initializeUserBalance: function() {
+
+        // check user rights
+        if (!Meteor.user().profile.admin) {
+            throw new Meteor.Error(401, "You are not allowed to perform this operation")
+        }
 
         var users = Users.find({});
         users.forEach(function(user) {
@@ -38,13 +44,14 @@ Meteor.methods({
         likeKudo(Meteor.user()._id, kudoId);
     },
 
+    unlikeKudo: function(kudoId) {
+        unlikeKudo(Meteor.user()._id, kudoId);
+    },
+
     newUserByEmail: function(email) {
 
-        //var username = email.split('@')[0];
-        var username = email;
-
         var profile = {
-            name: username,
+            name: email,
             email: email,
             domain: getDomain(email),
             sent: 0,
@@ -71,5 +78,15 @@ Meteor.methods({
     removeLastKudo: function() {
         var one = Kudos.findOne({}, {sort: {when: -1}});
         Kudos.remove(one._id);
+    },
+
+    /*
+        Return a kudo and all connected information, knowing the "public id"
+     */
+    peekKudo: function(kudoId) {
+        check(kudoId, String);
+        var kudo = Kudos.findOne(kudoId);
+        kudo.from = Kudos.find
+        return kudo;
     }
 });

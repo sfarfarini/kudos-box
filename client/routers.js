@@ -6,8 +6,7 @@ Meteor.Router.beforeRouting = function() {
 Meteor.Router.add({
 
     '/': 'timeline',
-
-    'timeline': 'timeline',
+    '/timeline': 'timeline',
 
     '/home': 'home',
 
@@ -43,6 +42,7 @@ Meteor.Router.add({
 });
 
 Meteor.Router.filters({
+
     'checkLoggedIn': function(page) {
         if (Meteor.loggingIn()) {
             return 'loading';

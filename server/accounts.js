@@ -32,7 +32,7 @@ Accounts.onCreateUser(function(options, user) {
         reconnectAccounts(user.profile.email);
         
 
-    }, 500);
+    }, 3000);
    
 
     return user;

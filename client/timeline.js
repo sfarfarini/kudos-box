@@ -15,10 +15,6 @@ Template.kudo_form.rendered = function() {
     });
 };
 
-Template.kudo_form.from = function () {
-    return Meteor.userId();
-};
-
 Template.kudo_form.events({
     'click button' : function (event, tmpl) {
 

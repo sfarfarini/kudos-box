@@ -80,6 +80,11 @@ Meteor.methods({
         Kudos.remove(one._id);
     },
 
+    // Moar temporary method
+    removeAllKudos: function() {
+        Kudos.remove({ _id: /^.*/ });
+    },
+
     /*
         Return a kudo and all connected information, knowing the "public id"
      */

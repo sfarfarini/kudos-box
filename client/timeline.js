@@ -17,6 +17,18 @@ Template.kudo_form.rendered = function() {
     });
 };
 
+Template.kudo_list.created = function() {
+
+    Session.set("current_page", 1);
+
+    $(window).scroll(function() {
+        if (($(window).innerHeight() + $(window).scrollTop()) >= $("body").height())   {
+            var currentpage = Session.get('current_page');
+            Session.set('current_page', currentpage + 1);
+        }
+    });
+};
+
 Template.kudo_form.events({
 
     'click button' : function (event, tmpl) {

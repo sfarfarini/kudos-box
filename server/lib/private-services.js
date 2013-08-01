@@ -10,12 +10,12 @@ emitKudo = function(fromUser, toUser, reason) {
         reason: reason
     });
 
-    console.log("KUDO in {domain} from {from} to {to} because {reason} ".assign({
+    /*console.log("KUDO in {domain} from {from} to {to} because {reason} ".assign({
         from: fromUser.profile.name,
         to:   toUser.profile.name,
         domain: kudo.domain,
         reason: kudo.reason
-    }));
+    }));*/
 
     Users.update(fromUser._id, {$inc: {'profile.sent': 1}});
     Users.update(toUser._id, {$inc: {'profile.received': 1}});

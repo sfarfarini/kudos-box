@@ -1,3 +1,5 @@
+var PAGE_SIZE = 40;
+
 Template.kudo_form.rendered = function() {
     return $('input[name=to]').typeahead({
         source: function(query, process) {
@@ -16,6 +18,7 @@ Template.kudo_form.rendered = function() {
 };
 
 Template.kudo_form.events({
+
     'click button' : function (event, tmpl) {
 
         event.preventDefault();
@@ -68,7 +71,10 @@ Template.kudo_form.events({
 });
 
 Template.kudo_list.kudos = function () {
-    return Kudos.find({}, {sort: {when: -1}});
+    return Kudos.find({}, {
+        limit: Session.get("current_page")*PAGE_SIZE,
+        sort: {when: -1}
+    });
 };
 
 Template.kudo.helpers({

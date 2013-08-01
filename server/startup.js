@@ -18,7 +18,7 @@ Meteor.startup(function () {
 
     if (Kudos.find().count() === 0) {
 
-        var kudos = [
+        /*var kudos = [
             {
                 from: theBoss,
                 to: theObiettore,
@@ -29,16 +29,30 @@ Meteor.startup(function () {
                 to: theBoss,
                 reason: "Ma quanto mi piace!"
             }
-        ];
+        ];*/
 
+        for (var i = 0; i < 500; i++) {
+            emitKudo(theBoss, theObiettore, makeMessage());
+        }
+
+        /*
         kudos.forEach(function(kudo) {
             emitKudo(kudo.from, kudo.to, kudo.reason);
-        });
+        });*/
 
     }
 });
 
+function makeMessage() {
 
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 15; i++ ) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
 
 function findOrCreate(test) {
 

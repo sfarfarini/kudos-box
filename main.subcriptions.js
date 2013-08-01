@@ -3,6 +3,15 @@ if (Meteor.isClient) {
 
     Deps.autorun(function () {
 
+        Session.set("current_page", 1);
+
+        $(window).scroll(function() {
+            if (($(window).innerHeight() + $(window).scrollTop()) >= $("body").height())   {
+                var currentpage = Session.get('current_page');
+                Session.set('current_page', currentpage + 1);
+            }
+        });
+
         var currentDomain = function() {
             var user = Meteor.user();
             if (user) {

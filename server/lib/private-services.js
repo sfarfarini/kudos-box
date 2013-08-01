@@ -21,7 +21,7 @@ emitKudo = function(fromUser, toUser, reason) {
     Users.update(toUser._id, {$inc: {'profile.received': 1}});
     kudo.save();
     return kudo;
-}
+};
 
 setupUserProfileByService = function (profile, user) {
 
@@ -33,7 +33,7 @@ setupUserProfileByService = function (profile, user) {
             profile.domain = getDomain(profile.email);
         }
     }
-}
+};
 
 likeKudo = function (userId, kudoId) {
 
@@ -44,7 +44,6 @@ unlikeKudo = function (userId, kudoId) {
 
     Kudos.update({_id:kudoId}, { $pull: { likes: userId } });
 };
-
 
 sendInvitationEmail = function(userId) {
 
@@ -59,7 +58,7 @@ sendInvitationEmail = function(userId) {
     };
 
     Email.send(options);
-}
+};
 
 reconnectAccounts = function(email) {
 
@@ -78,7 +77,5 @@ reconnectAccounts = function(email) {
         // delete old newUser
         Users.remove(oldUser._id);
         Users.update(newUser._id, newUser);
-
     }
-
-}
+};

@@ -16,6 +16,9 @@ Run the Application
 This application is developed using Meteor 6.4.1 and some extra packages managed on atmosphere, so that it requires
 meteorite (follow the installation procedure here: https://github.com/oortcloud/meteorite).
 
+Make sure all the packages have been correctly installed running the command:
+> mrt install
+
 Run command:
 > mrt
 

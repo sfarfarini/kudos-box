@@ -1,9 +1,18 @@
 
 Meteor.methods({
 
+    emitKudoError: function(message) {
+
+        Meteor.render("kudo_error");
+    },
+
     emitKudo: function (targetUser, reason) {
 
         return emitKudo(Meteor.user(), targetUser, reason);
+    },
+
+    emitComment: function(kudo, message) {
+        return emitComment(kudo, Meteor.user(), message);
     },
 
     initializeUserBalance: function() {

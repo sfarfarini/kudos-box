@@ -7,6 +7,7 @@ Meteor.startup(function () {
             name: name,
             email: _id.replace(/_/g, '') + "@byte-code.com",
             domain: 'byte-code.com',
+            picture: "/generic_avatar.gif",
             received: 0,
             sent: 0
         }

@@ -46,7 +46,11 @@ Navbar = [
     {
         page: 'you',
         href: function() {
-            return '/users/{name}'.assign({name: Meteor.user().profile.name});
+            var name = Meteor.user();
+            if (!Meteor.loggingIn()) {
+                return '/users/{name}'.assign({name: name.profile.name});
+            }
+            return false;
         },
         caption: 'You',
         requires: function() {
@@ -58,10 +62,13 @@ Navbar = [
         href: '/admin',
         caption: 'Admin',
         requires: function() {
-            if (Meteor.userId()){
-                return Meteor.user().profile.admin;
-            } else
-                return false;
+            //if (Meteor.userId()) {
+            if (Meteor.user()) {
+                if (!Meteor.loggingIn()) {
+                    return Meteor.user().profile.admin;
+                }
+            }
+            return false;
         }
     },
     {

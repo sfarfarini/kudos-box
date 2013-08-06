@@ -27,6 +27,8 @@ Template.kudo_list.created = function() {
             Session.set('current_page', currentpage + 1);
         }
     });
+
+    Session.setDefault('kudo.showComments', {});
 };
 
 Template.kudo_new_comment.events({
@@ -50,6 +52,13 @@ Template.kudo_new_comment.events({
     }
 });
 
+Template.kudo_list.kudos = function () {
+    return Kudos.find({}, {
+        limit: Session.get("current_page")*PAGE_SIZE,
+        sort: {when: -1}
+    });
+};
+
 Template.kudo_form.events({
 
     'click button' : function (event, tmpl) {
@@ -59,17 +68,12 @@ Template.kudo_form.events({
         // template data, if any, is available in 'this'
         var inputTo = tmpl.find('[name=to]');
         var inputReason = tmpl.find('[name=reason]');
-
-//        console.log(inputTo);
-//        console.log(inputReason);
-
         var to = inputTo.value;
         var reason = inputReason.value;
 
         if ( to != '' && reason != '' ) {
 
             var currentUser = Meteor.user();
-
             var targetUser = Users.findOne({'profile.name': to});
 
             if (targetUser == null) {
@@ -98,28 +102,39 @@ Template.kudo_form.events({
         } else {
             alert('Are u making fun of me?');
         }
-
         return false;
     }
 });
 
-Template.kudo_list.kudos = function () {
-    return Kudos.find({}, {
-        limit: Session.get("current_page")*PAGE_SIZE,
-        sort: {when: -1}
-    });
-};
+Template.kudo.events({
 
-Template.kudo_comment.helpers({
+    'click a.like-it': function(event, templ) {
+        if (_.contains(this.likes, Meteor.userId())) {
+            console.log('Like');
+            Meteor.call('unlikeKudo', this._id);
+        } else {
+            console.log('unLike');
+            Meteor.call('likeKudo', this._id);
+        }
+    },
 
-    prettyWhen: function () {
-        return moment(this.when).fromNow();
+    'click a.comment-it': function(event, tmpl) {
+
+        event.preventDefault();
+
+        var showComments = Session.get('kudo.showComments');
+        if (_.has(showComments, this._id)) {
+            Session.set('kudo.showComments', _.omit(showComments, this._id))
+        } else {
+            showComments[this._id] = true;
+            Session.set('kudo.showComments', showComments);
+        }
     },
-    author: function() {
-        return safeName(Users.findOne(this.author));
-    },
-    authorPicture: function() {
-        return Users.findOne(this.author).profile.picture;
+
+    'click a.public-link': function(event, tmpl) {
+
+        event.preventDefault();
+        window.open('http://' + document.location.host + '/share/' + this._id);
     }
 });
 
@@ -135,58 +150,42 @@ Template.kudo.helpers({
         return safeName(Users.findOne(this.toId));
     },
     fromPicture: function() {
-        return Users.findOne(this.fromId).profile.picture;
+        var user = Users.findOne(this.fromId);
+        return user.profile.picture;
+    },
+    isLiked: function() {
+        if (_.contains(this.likes, Meteor.userId())) {
+            return "Liked";
+        } else {
+            return "Like";
+        }
     },
     totalLikes: function() {
-        // the IFerno!
-        if (this.likes) {
-            return likeCaption(this.likes);
+        if(this.likes) {
+            return this.likes.length;
         } else {
             return 0;
         }
-    }
-});
-
-likeCaption = function(likes) {
-    if (_.contains(likes, Meteor.userId())) {
-        var youAndOthers = 'you';
-        if (likes.length > 1) {
-            youAndOthers = youAndOthers + '+' + (likes.length-1);
-        }
-        return youAndOthers
-    } else {
-        return likes.length;
-    }
-};
-
-Template.kudo.events({
-
-    'click a.like-it': function(event, templ) {
-        if (_.contains(this.likes, Meteor.userId())) {
-            console.log('Like');
-            Meteor.call('unlikeKudo', this._id);
-        } else {
-            console.log('unLike');
-            Meteor.call('likeKudo', this._id);
-        }
     },
-
-    'click a.comment-it': function (event, tmpl) {
-
-        var comments = tmpl.find('.comments');
-        var new_comment = tmpl.find('.new_comment');
-
-        if ($(comments).is(':visible')) {
-            $(comments).hide(400);
-            $(new_comment).hide(400);
-        } else {
-            $(comments).show(400);
-            $(new_comment).show(400);
-        }
+    showComments: function()  {
+        return Session.get('kudo.showComments')[this._id];
     }
 });
 
-var safeName = function(user) {
+Template.kudo_comment.helpers({
+
+    prettyWhen: function () {
+        return moment(this.when).fromNow();
+    },
+    author: function() {
+        return safeName(Users.findOne(this.author));
+    },
+    authorPicture: function() {
+        return Users.findOne(this.author).profile.picture;
+    }
+});
+
+safeName = function(user) {
     if (user) {
         return user.screenName();
     } else {

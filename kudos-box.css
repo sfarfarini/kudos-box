@@ -2,3 +2,7 @@
 body {
 	 padding-top: 60px;
 }
+
+.prettyTime {
+    font-size: small; font-style: italic;
+}

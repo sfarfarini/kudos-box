@@ -23,6 +23,22 @@ emitKudo = function(fromUser, toUser, reason) {
     return kudo;
 };
 
+emitComment = function(kudo, author, message) {
+
+    var comment = {
+        author : author._id,
+        message : message,
+        when : new Date()
+    };
+
+    console.log("Kudo {kudo} commented by {author}".assign({
+        kudo: kudo._id,
+        author: author._id
+    }));
+
+    Kudos.update(kudo._id, {$push: {'comments' : comment}, $inc: {'commentsCount': 1}});
+};
+
 setupUserProfileByService = function (profile, user) {
 
     if (user.services) {

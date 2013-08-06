@@ -35,16 +35,17 @@ Template.kudo_new_comment.events({
 
         event.preventDefault();
 
-        var message = tmpl.find('[name=message]').value;
+        var message = tmpl.find('[name=message]');
 
-        if (message == '') {
+        if (message.value == '') {
             return false;
         }
 
-        Meteor.call("emitComment", kudo, message, function (error, result) {
+        Meteor.call("emitComment", this, message.value, function (error, result) {
             console.log("emitComment: " + result);
         });
 
+        message.value = '';
         return false;
     }
 });
@@ -159,6 +160,7 @@ likeCaption = function(likes) {
 };
 
 Template.kudo.events({
+
     'click a.like-it': function(event, templ) {
         if (_.contains(this.likes, Meteor.userId())) {
             console.log('Like');
@@ -166,6 +168,20 @@ Template.kudo.events({
         } else {
             console.log('unLike');
             Meteor.call('likeKudo', this._id);
+        }
+    },
+
+    'click a.comment-it': function (event, tmpl) {
+
+        var comments = tmpl.find('.comments');
+        var new_comment = tmpl.find('.new_comment');
+
+        if ($(comments).is(':visible')) {
+            $(comments).hide(400);
+            $(new_comment).hide(400);
+        } else {
+            $(comments).show(400);
+            $(new_comment).show(400);
         }
     }
 });

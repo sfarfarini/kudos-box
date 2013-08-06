@@ -16,7 +16,7 @@
 
 <template name="kudo_list">
     {{#each kudos}}
-        {{> kudo}}
+    {{> kudo}}
     {{/each}}
 </template>
 
@@ -39,21 +39,33 @@
                     <p class="prettyTime pull-right" time="{{when}}">{{prettyWhen}}</p>
                 </div>
             </div>
-            {{#if comments}}
-            <div class="comments row">
-                <div class="span6">
-                    {{#each comments}}
-                        {{> kudo_comment}}
-                    {{/each}}
+            <div class="row">
+                <div class="span4">
+                    <div class="span1">
+                    <a class='like-it'><i class="icon-thumbs-up"/> Like</a>
+                    </div>
+                    <div class="span2">
+                        <a class='comment-it'><i class="icon-comment"/> Comment</a>
+                    </div>
+                </div>
+                <div class="span4">
+                    <p class="pull-right">
+                        <i><small>{{totalLikes}} likes, {{#if commentsCount}} {{commentsCount}} {{else}} 0 {{/if}} comments.</small></i>
+                    </p>
                 </div>
             </div>
-            {{/if}}
-        </div>
-        <div class="span1">
-            <p><a class='like-it'><i class="icon-thumbs-up"/> {{totalLikes}}</a></p>
-            <p><a class='like-it'><i class="icon-comment"/> 0</a></p>
         </div>
     </div>
+    {{#if comments}}
+    <div class="comments row" hidden="hidden">
+        <div class="span7 offset1">
+            {{#each comments}}
+            {{> kudo_comment}}
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+    {{> kudo_new_comment}}
 </template>
 
 <template name="kudo_comment">
@@ -61,7 +73,7 @@
         <div class="span1">
             <img width="40" height="40" class="img-rounded pull-right" alt="{{author}}" src="{{authorPicture}}"/>
         </div>
-        <div class="span5">
+        <div class="span5 well well-small">
             <div class="row">
                 <div class="span5">
                     <a class="text-center" href="/users/{{author}}"><strong>{{author}}</strong></a>
@@ -78,5 +90,14 @@
 </template>
 
 <template name="kudo_new_comment">
-
+    <div class="new_comment row" hidden="hidden">
+        <div class="span6 offset2">
+            <form id="kudo_new_comment" class="form-inline">
+                <div class="input-append">
+                    <input type="text" class="span5" placeholder="New comment" name="message" autocomplete="off">
+                    <button class="btn btn-success"><span class="icon-comment"/></button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>

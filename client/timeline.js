@@ -187,11 +187,3 @@ Template.kudo_comment.helpers({
         return Users.findOne(this.author).profile.picture;
     }
 });
-
-safeName = function(user) {
-    if (user) {
-        return user.screenName();
-    } else {
-        return 'MISSING';
-    }
-};

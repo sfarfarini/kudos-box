@@ -1,53 +1,67 @@
 <template name="showUser">
 
     <div class="row">
-        <div class="span-2">
-            <img class="img-polaroid" width="60" src='{{user.profile.picture}}'/>
+        <div class="span1">
+            <img class="img-rounded" src='{{user.profile.picture}}'/>
         </div>
-        <div class="span-10">
-            <h2>{{user.profile.name}}</h2>
+        <div class="span11">
+            <fieldset>
+                <legend>{{user.profile.name}}</legend>
+                <ul class="unstyled">
+                    <li><i class="icon-envelope"/> Email: {{user.profile.email}}</li>
+                    <li><i class="icon-heart"/> Kudos sent: {{user.balance.sent}}</li>
+                    <li><i class="icon-gift"/> Kudos received: {{user.balance.received}}</li>
+                    <li><i class="icon-ok"/> Balance: {{user.balance.spendable}} spendable, currently own {{user.balance.currency}} kudos</li>
+                    <li>
+                        {{#if user.enabled}}
+                            <i class="icon-eye-open"/> Status: enabled
+                        {{else}}
+                            <i class="icon-eye-close"/> Status: disabled <i>(you cannot send or receive kudos)</i>
+                        {{/if}}
+                    </li>
+                </ul>
+            </fieldset>
         </div>
     </div>
-
+    <br/>
     <div class="row">
-        <div class="span-2">
-            Kudos: {{user.profile.received}} / {{user.profile.sent}}
+        <div class="span12">
+            <fieldset>
+                <legend>Given kudos</legend>
+                {{> kudo_short_given_list}}
+            </fieldset>
         </div>
     </div>
-
     <div class="row">
-        <div class="span-12">
-            {{> givenKudos}}
+        <div class="span12">
+            <fieldset>
+                <legend>Received kudos</legend>
+                {{> kudo_short_received_list}}
+            </fieldset>
         </div>
     </div>
-
-
-    <div class="row">
-        <div class="span-12">
-            {{> receivedKudos}}
-        </div>
-    </div>
-
 </template>
 
-<template name="receivedKudos">
-
-    <h4>Received, {{tot}} some:</h4>
-
+<template name="kudo_short_given_list">
     {{#each kudos}}
-        {{> kudo}}
+        {{> kudo_short}}
     {{else}}
-        None.
+        No kudos present
     {{/each}}
 </template>
 
-<template name="givenKudos">
-
-    <h4>Given, {{tot}} some:</h4>
-
+<template name="kudo_short_received_list">
     {{#each kudos}}
-        {{> kudo}}
+        {{> kudo_short}}
     {{else}}
-        None.
+        No kudos present
     {{/each}}
+</template>
+
+<template name="kudo_short">
+    <p>
+        <strong>{{from}}</strong> <i class="icon-chevron-right"/> <strong>{{to}}</strong>,
+        {{reason}}.
+        <small><i>{{prettyWhen}}</i></small>
+    </p>
 </template>

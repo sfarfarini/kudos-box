@@ -36,8 +36,6 @@ Meteor.Router.add({
         }
     },
 
-    '/balance': 'balance',
-
     '/admin': 'admin',
     
     '*': 'not_found'
@@ -49,7 +47,11 @@ Meteor.Router.filters({
         if (Meteor.loggingIn()) {
             return 'loading';
         } else if (Meteor.user()) {
-            return page;
+            if (!Meteor.loggingIn()) {
+                return page;
+            } else {
+                return 'loading';
+            }
         } else {
             return 'home';
         }
@@ -66,4 +68,4 @@ Meteor.Router.filters({
 
 Meteor.Router.filter('checkLoggedIn', {except: ['home', 'share']});
 
-Meteor.Router.filter('checkAdmin', {only: ['admin', 'balance']});
+Meteor.Router.filter('checkAdmin', {only: ['admin']});

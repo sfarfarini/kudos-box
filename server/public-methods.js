@@ -1,14 +1,20 @@
 
 Meteor.methods({
 
-    emitKudoError: function(message) {
+    triggerUserStatus: function (user_id, status) {
+        return Users.update({_id: user_id}, { $set : {'enabled': status }});
+    },
 
+    resetCounters: function (user_id) {
+        return Users.update({_id: user_id}, { $set : { 'balance.sent': 0, 'balance.received': 0}});
+    },
+
+    emitKudoError: function(message) {
         Meteor.render("kudo_error");
     },
 
     emitKudo: function (targetUser, reason) {
-
-        return emitKudo(Meteor.user(), targetUser, reason);
+        return emitKudo(Meteor.user(), targetUser, reason, new Date());
     },
 
     emitComment: function(kudo, message) {
@@ -59,16 +65,20 @@ Meteor.methods({
 
     newUserByEmail: function(email) {
 
-        var profile = {
-            name: email,
-            email: email,
-            domain: getDomain(email),
-            sent: 0,
-            received: 0
-        };
-
         var user = new User({
-            profile: profile,
+            profile: {
+                name: email,
+                email: email,
+                domain: getDomain(email),
+                sent: 0,
+                received: 0
+            },
+            balance: {
+                received: 0,
+                sent: 0,
+                spendable: 100, //TODO change this number with 0 and implement a job that $inc them by policy
+                currency: 0
+            },
             createdAt: new Date().getTime()
         });
         user.info = {};

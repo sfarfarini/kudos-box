@@ -2,16 +2,24 @@ Meteor.startup(function () {
 
     var user = function ( _id, name) {
 
-        return findOrCreate(new User({_id: _id, profile:
-        {
-            name: name,
-            email: _id.replace(/_/g, '') + "@byte-code.com",
-            domain: 'byte-code.com',
-            picture: "/generic_avatar.gif",
-            received: 0,
-            sent: 0
-        }
-        }));
+        return findOrCreate(new User(
+            {
+                _id: _id,
+                enabled: true,
+                profile: {
+                    name: name,
+                    email: _id.replace(/_/g, '') + "@byte-code.com",
+                    domain: 'byte-code.com',
+                    picture: "/generic_avatar.gif"
+                },
+                balance: {
+                    received: 0,
+                    sent: 0,
+                    spendable: 100,
+                    currency: 0
+                }
+            }
+        ));
     };
 
     var u1 = user('_stark', 'Tony Stark');
@@ -32,7 +40,7 @@ Meteor.startup(function () {
             var when = getRandomDate(new Date(2012, 1, 1), new Date());
             var reason = makeMessage(getRandom(15, 100));
 
-            emitKudoWithDateForced(fromUser, toUser, reason, when);
+            emitKudo(fromUser, toUser, reason, when);
         }
     }
 });

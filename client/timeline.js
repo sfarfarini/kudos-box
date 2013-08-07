@@ -151,7 +151,10 @@ Template.kudo.helpers({
     },
     fromPicture: function() {
         var user = Users.findOne(this.fromId);
-        return user.profile.picture;
+        if (user) {
+            return user.profile.picture;
+        }
+        return false;
     },
     isLiked: function() {
         if (_.contains(this.likes, Meteor.userId())) {

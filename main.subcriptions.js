@@ -28,7 +28,10 @@ if (Meteor.isServer) {
     Meteor.publish("allUserData", function () {
         return Meteor.users.find({}, {
             fields: {
-                profile: 1
+                _id: 1,
+                balance: 1,
+                profile: 1,
+                enabled: 1
             }
         });
     });

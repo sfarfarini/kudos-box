@@ -81,16 +81,18 @@ Template.kudo_form.events({
                 if (to.indexOf( currentUser.profile.domain ) && isEmail(to)) {
                     Meteor.call('newUserByEmail', to);
                 } else {
+                    // error message instead of alert
                     alert("I can't find this guy!");
                 }
                 return false;
             }
-
+                
             if (targetUser._id === currentUser._id) {
+                // error message instead of alert
                 alert("Make love with somebody else, please!");
                 return false;
             }
-
+            
             inputTo.value = '';
             inputReason.value = '';
 

@@ -4,6 +4,7 @@
 emitKudo = function(fromUser, toUser, reason, when) {
 
     var kudo = new Kudo({
+        _id: makeKudoId(),
         toId: toUser._id,
         fromId: fromUser._id,
         domain: fromUser.profile.domain,
@@ -11,7 +12,8 @@ emitKudo = function(fromUser, toUser, reason, when) {
         when: when
     });
 
-    console.log("KUDO in {domain} from {from} to {to} because {reason} ".assign({
+    console.log("KUDO with {_id} in {domain} from {from} to {to} because {reason} ".assign({
+        _id: kudo._id,
         from: fromUser.profile.name,
         to:   toUser.profile.name,
         domain: kudo.domain,
@@ -21,7 +23,11 @@ emitKudo = function(fromUser, toUser, reason, when) {
 
     Users.update(fromUser._id, {$inc: {'balance.sent': 1, 'balance.spendable': -1}});
     Users.update(toUser._id, {$inc: {'balance.received': 1, 'balance.currency': 1}});
-    kudo.save();
+    
+    Kudos.insert(kudo);
+    
+    sendNotificationEmail(toUser, kudo);
+    
     return kudo;
 };
 
@@ -71,7 +77,7 @@ sendInvitationEmail = function(userId) {
     var options = {
         to: invited.profile.email,
         from: 'kudos@byte-code.com',
-        subject: "Ehi, {name} gave you some love!".assign(referral.profile),
+        subject: "Ehi, {name} wants you in Kudo Box!".assign(referral.profile),
         text: "Visit http://kudos-box.meteor.com and join us!"
     };
 
@@ -97,3 +103,14 @@ reconnectAccounts = function(email) {
         Users.update(newUser._id, newUser);
     }
 };
+
+sendNotificationEmail = function(target, kudo) {
+    var options = {
+        to: target.profile.email,
+        from: 'kudos@byte-code.com',
+        subject: "Ehi, {name} gave you some love!".assign(Meteor.user().profile),
+        text: "Visit http://kudos-box.meteor.com/share/{_id} and see your kudo!".assign(kudo)
+    };
+    
+    Email.send(options);
+}

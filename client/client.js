@@ -4,4 +4,3 @@ Meteor.setInterval(function() {
     });
 }, 5000);
 
-

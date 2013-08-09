@@ -82,14 +82,14 @@ Template.kudo_form.events({
                     Meteor.call('newUserByEmail', to);
                 } else {
                     // error message instead of alert
-                    alert("I can't find this guy!");
+                    Session.set("invalid-kudo-form-message", "I can't find this guy!");
                 }
                 return false;
             }
                 
             if (targetUser._id === currentUser._id) {
                 // error message instead of alert
-                alert("Make love with somebody else, please!");
+                Session.set("invalid-kudo-form-message", "Make love with somebody else, please!");
                 return false;
             }
             
@@ -102,7 +102,7 @@ Template.kudo_form.events({
             });
 
         } else {
-            alert('Are u making fun of me?');
+            Session.set("invalid-kudo-form-message", "Are u making fun of me?");
         }
         return false;
     }

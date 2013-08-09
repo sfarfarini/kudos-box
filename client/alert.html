@@ -1,0 +1,14 @@
+<template name="alert">
+    {{#if invalid}}
+        {{> invalid_kudo_form}}
+    {{else}}
+        <div></div>
+    {{/if}}
+</template>
+
+<template name="invalid_kudo_form">
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{message}}
+    </div>
+</template>

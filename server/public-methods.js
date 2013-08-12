@@ -1,6 +1,10 @@
 
 Meteor.methods({
 
+    subscribeDomain: function(domain) {
+        return subscribeDomain(domain, Meteor.user());
+    },
+
     triggerUserStatus: function (user_id, status) {
         return Users.update({_id: user_id}, { $set : {'enabled': status }});
     },
@@ -39,7 +43,7 @@ Meteor.methods({
             actual.newSent = Kudos.find({
                 domain: profile.domain,
                 fromId: user._id
-                }).count();
+            }).count();
 
             actual.newReceived = Kudos.find({
                 domain: profile.domain,
@@ -105,7 +109,7 @@ Meteor.methods({
     },
 
     /*
-        Return a kudo and all connected information, knowing the "public id"
+     Return a kudo and all connected information, knowing the "public id"
      */
     peekKudo: function(kudoId) {
         check(kudoId, String);

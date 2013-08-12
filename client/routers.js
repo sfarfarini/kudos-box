@@ -1,6 +1,6 @@
 
 Meteor.Router.beforeRouting = function() {
-    // anything you like before routing
+    alertList.remove({});
 };
 
 Meteor.Router.add({

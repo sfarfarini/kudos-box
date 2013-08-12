@@ -4,3 +4,12 @@ Meteor.setInterval(function() {
     });
 }, 5000);
 
+createAlert = function(level, message, sticky) {
+    alertList.insert({
+        _id: makeAlertId(),
+        sticky: sticky,
+        message: message,
+        level: level //"error": red alert, "success": green alert, "info": blue alert 
+    });
+};
+

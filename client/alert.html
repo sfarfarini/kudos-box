@@ -1,13 +1,11 @@
-<template name="alert">
-    {{#if invalid}}
-        {{> invalid_kudo_form}}
-    {{else}}
-        <div></div>
-    {{/if}}
+<template name="alert_list">
+    {{#each alerts}}
+    {{> alert}}
+    {{/each}}
 </template>
 
-<template name="invalid_kudo_form">
-    <div class="alert alert-error">
+<template name="alert">
+    <div class="alert alert-{{level}}" id="{{_id}}}">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{message}}
     </div>

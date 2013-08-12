@@ -5,11 +5,27 @@ Meteor.methods({
         return subscribeDomain(domain, Meteor.user());
     },
 
-    triggerUserStatus: function (user_id, status) {
-        return Users.update({_id: user_id}, { $set : {'enabled': status }});
+    removeFromDomain: function(user_id) {
+        return Users.update({_id: user_id}, { $set : {'profile.domain': null }});
     },
 
-    resetCounters: function (user_id) {
+    giveAdminRights: function(user_id)  {
+        Users.update({_id: user_id}, {$set: {'profile.admin': true}});
+        Users.update({_id: Meteor.user()._id}, {$set: {'profile.admin': false}});
+        var user = Users.findOne({_id: user_id, 'profile.admin': true});
+        Domains.update({name: user.profile.domain}, {$set: {'admin': user_id}});
+        return user;
+    },
+
+    decrementSpendable: function(user) {
+        return Users.update({_id: user._id}, {$inc: {'balance.spendable': -1}});
+    },
+
+    incrementSpendable: function(user) {
+        return Users.update({_id: user._id}, {$inc: {'balance.spendable': 1}});
+    },
+
+    resetCounters: function(user_id) {
         return Users.update({_id: user_id}, { $set : { 'balance.sent': 0, 'balance.received': 0}});
     },
 

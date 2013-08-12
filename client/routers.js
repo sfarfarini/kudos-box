@@ -69,8 +69,7 @@ Meteor.Router.filters({
         if (Meteor.userId() && Meteor.user().profile.admin) {
             return page;
         } else {
-            return '/';
-            //throw new Meteor.Error(401, 'This page requires administration rights');
+            return 'timeline';
         }
     }    
 });

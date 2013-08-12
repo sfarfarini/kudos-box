@@ -15,7 +15,6 @@ if (Meteor.isClient) {
         Meteor.subscribe("kudos", currentDomain());
         Meteor.subscribe("allUserData");
         Meteor.subscribe("domains");
-
     });
 }
 
@@ -31,15 +30,7 @@ if (Meteor.isServer) {
     });
 
     Meteor.publish("allUserData", function () {
-        return Meteor.users.find({}, {
-            fields: {
-                _id: 1,
-                balance: 1,
-                profile: 1,
-                enabled: 1
-            }
-        });
+        return Meteor.users.find({});
     });
-
 }
 

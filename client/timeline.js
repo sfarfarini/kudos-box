@@ -140,6 +140,20 @@ Template.kudo.events({
     }
 });
 
+Template.timeline.helpers({
+
+    userHasKudos: function() {
+        if (Meteor.user()) {
+            if (!Meteor.loggingIn()) {
+                if (Meteor.user().balance) {
+                    return Meteor.user().balance.spendable > 0;
+                }
+            }
+        }
+        return false;
+    }
+});
+
 Template.kudo.helpers({
 
     prettyWhen: function () {

@@ -103,7 +103,7 @@ Template.kudo_form.events({
             });
 
         } else {
-            createAlert("error", "Are u making fun of me?", true);
+            createAlert("error", "Are u making fun of me?", false);
         }
         return false;
     }

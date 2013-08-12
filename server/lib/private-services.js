@@ -1,5 +1,31 @@
 
 // Private Methods
+subscribeDomain = function(domainName, user) {
+
+    //check if domain already exists or not
+    var domain = Domains.findOne({name: domainName});
+    if (!domain) {
+        domain = new GroupDomain({
+            'admin': user._id,
+            'name': domainName,
+            'public': true,
+            'rules': {
+                "period" : 7,
+                "kudosForPeriod" : 1,
+                "maxSpendableKudosAllowed" : 5
+            }
+        });
+        Domains.insert(domain);
+    } else {
+        if (domain.admin == null) {
+            Domains.update({_id: domain._id}, {$set: {admin: user._id}});
+            Users.update({_id: user._id}, {$set: {'profile.admin': true}});
+        } else {
+            Users.update({_id: user._id}, {$set: {'profile.admin': false}});
+        }
+    }
+    return Users.update({'_id': user._id}, {$set: {'profile.domain': domainName, 'balance.spendable': domain.rules.maxSpendableKudosAllowed}});
+};
 
 emitKudo = function(fromUser, toUser, reason, when) {
 
@@ -26,7 +52,7 @@ emitKudo = function(fromUser, toUser, reason, when) {
     
     Kudos.insert(kudo);
     
-    sendNotificationEmail(toUser, kudo);
+    sendNotificationEmail(fromUser, toUser, kudo);
     
     return kudo;
 };
@@ -54,7 +80,7 @@ setupUserProfileByService = function (profile, user) {
             var google = user.services.google;
             profile.email = google.email;
             profile.picture =  google.picture;
-            profile.domain = getDomain(profile.email);
+            //profile.domain = getDomain(profile.email);
         }
     }
 };
@@ -78,7 +104,7 @@ sendInvitationEmail = function(userId) {
         to: invited.profile.email,
         from: 'kudos@byte-code.com',
         subject: "Ehi, {name} wants you in Kudo Box!".assign(referral.profile),
-        text: "Visit http://kudos-box.meteor.com and join us!"
+        text: "Visit http://kudo-box.meteor.com and join us!"
     };
 
     Email.send(options);
@@ -104,12 +130,13 @@ reconnectAccounts = function(email) {
     }
 };
 
-sendNotificationEmail = function(target, kudo) {
+sendNotificationEmail = function(fromUser, toUser, kudo) {
+
     var options = {
-        to: target.profile.email,
+        to: toUser.profile.email,
         from: 'kudos@byte-code.com',
-        subject: "Ehi, {name} gave you some love!".assign(Meteor.user().profile),
-        text: "Visit http://kudos-box.meteor.com/share/{_id} and see your kudo!".assign(kudo)
+        subject: "Ehi, {name} gave you some love!".assign(fromUser.profile),
+        text: "Visit http://kudo-box.meteor.com/share/{_id} and see your kudo!".assign(kudo)
     };
     
     Email.send(options);

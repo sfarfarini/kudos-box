@@ -12,6 +12,8 @@ Meteor.Router.add({
 
     '/about': 'about',
 
+    '/domain': 'chooseDomain',
+
     '/share/:id' : function(id) {
 
         console.log('we are at ' + this.canonicalPath);
@@ -44,10 +46,16 @@ Meteor.Router.add({
 Meteor.Router.filters({
 
     'checkLoggedIn': function(page) {
+
         if (Meteor.loggingIn()) {
             return 'loading';
         } else if (Meteor.user()) {
             if (!Meteor.loggingIn()) {
+                var user = Meteor.user();
+                if (!user.profile.domain) {
+                    Session.set('userWithoutDomain', user._id);
+                    return 'chooseDomain';
+                }
                 return page;
             } else {
                 return 'loading';
@@ -61,7 +69,8 @@ Meteor.Router.filters({
         if (Meteor.userId() && Meteor.user().profile.admin) {
             return page;
         } else {
-            throw new Meteor.Error(401, 'This page requires administration rights');
+            return '/';
+            //throw new Meteor.Error(401, 'This page requires administration rights');
         }
     }    
 });

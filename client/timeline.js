@@ -1,4 +1,5 @@
 var PAGE_SIZE = 10;
+alertList = new Meteor.Collection();
 
 Template.kudo_form.rendered = function() {
     return $('input[name=to]').typeahead({
@@ -27,7 +28,7 @@ Template.kudo_list.created = function() {
             Session.set('current_page', currentpage + 1);
         }
     });
-
+    
     Session.setDefault('kudo.showComments', {});
 };
 
@@ -70,26 +71,26 @@ Template.kudo_form.events({
         var inputReason = tmpl.find('[name=reason]');
         var to = inputTo.value;
         var reason = inputReason.value;
+        
 
         if ( to != '' && reason != '' ) {
 
             var currentUser = Meteor.user();
             var targetUser = Users.findOne({'profile.name': to});
+                   
 
             if (targetUser == null) {
                 // test if it's a valid domain
                 if (to.indexOf( currentUser.profile.domain ) && isEmail(to)) {
                     Meteor.call('newUserByEmail', to);
                 } else {
-                    // error message instead of alert
-                    Session.set("invalid-kudo-form-message", "I can't find this guy!");
+                    createAlert("error", "I can't find this guy!", false);
                 }
                 return false;
             }
                 
             if (targetUser._id === currentUser._id) {
-                // error message instead of alert
-                Session.set("invalid-kudo-form-message", "Make love with somebody else, please!");
+                createAlert("error", "Make love with somebody else, please!", false);
                 return false;
             }
             
@@ -102,7 +103,7 @@ Template.kudo_form.events({
             });
 
         } else {
-            Session.set("invalid-kudo-form-message", "Are u making fun of me?");
+            createAlert("error", "Are u making fun of me?", true);
         }
         return false;
     }
@@ -126,7 +127,7 @@ Template.kudo.events({
 
         var showComments = Session.get('kudo.showComments');
         if (_.has(showComments, this._id)) {
-            Session.set('kudo.showComments', _.omit(showComments, this._id))
+            Session.set('kudo.showComments', _.omit(showComments, this._id));
         } else {
             showComments[this._id] = true;
             Session.set('kudo.showComments', showComments);

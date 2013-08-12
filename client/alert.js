@@ -1,22 +1,23 @@
-Template.alert.helpers({
-    invalid: function(){
-        return Session.get("invalid-kudo-form-message") !== "";
-    }
-});
+Template.alert_list.alerts = function(){
+        return alertList.find({});
+};
 
-Template.invalid_kudo_form.helpers({   
-    message: function () {
-        return Session.get("invalid-kudo-form-message");
-    }
-});
-
-Template.invalid_kudo_form.events({
+Template.alert.events({
     'click button': function(event){
-        Session.set("invalid-kudo-form-message", "");
+        alertList.remove(this._id);
         return false;
     }
 });
 
-Template.invalid_kudo_form.created = function() {
-  Session.setDefault("invalid-kudo-form-message", "");  
+Template.alert.rendered = function(){
+    var thisId = this.data._id;
+    var thisAlert = alertList.find(thisId);
+    if (thisAlert.collection.docs[thisId].sticky === false) {
+        window.setTimeout(function() {
+        $("#"+thisId).fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 3000);
+    }
+    
 };

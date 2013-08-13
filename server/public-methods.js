@@ -137,5 +137,10 @@ Meteor.methods({
         var kudo = Kudos.findOne(kudoId);
         kudo.from = Kudos.find
         return kudo;
+    }, 
+    
+    //TEMP FUNCTION!
+    updateBalance: function(domain) {
+       return updateBalance(domain);  
     }
 });

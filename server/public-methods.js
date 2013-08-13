@@ -132,5 +132,5 @@ Meteor.methods({
         var kudo = Kudos.findOne(kudoId);
         kudo.from = Kudos.find
         return kudo;
-    }
+    }           
 });

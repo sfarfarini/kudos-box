@@ -16,6 +16,8 @@ subscribeDomain = function(domainName, user) {
             }
         });
         Domains.insert(domain);
+        systemCron.addScheduleJobs(30, updateBalance(domain));
+        console.log(systemCron);
     } else {
         if (domain.admin == null) {
             Domains.update({_id: domain._id}, {$set: {admin: user._id}});

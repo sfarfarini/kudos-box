@@ -141,20 +141,6 @@ Template.kudo.events({
     }
 });
 
-Template.timeline.helpers({
-
-    userHasKudos: function() {
-        if (Meteor.user()) {
-            if (!Meteor.loggingIn()) {
-                if (Meteor.user().balance) {
-                    return Meteor.user().balance.spendable > 0;
-                }
-            }
-        }
-        return false;
-    }
-});
-
 Template.kudo.helpers({
 
     prettyWhen: function () {
@@ -189,6 +175,31 @@ Template.kudo.helpers({
     },
     showComments: function()  {
         return Session.get('kudo.showComments')[this._id];
+    }
+});
+
+Template.kudo_form.helpers({
+
+    userHasKudos: function() {
+        if (Meteor.user()) {
+            if (!Meteor.loggingIn()) {
+                if (Meteor.user().balance) {
+                    return Meteor.user().balance.spendable > 0;
+                }
+            }
+        }
+        return false;
+    },
+
+    remainingKudos: function() {
+        if (Meteor.user()) {
+            if (!Meteor.loggingIn()) {
+                if (Meteor.user().balance) {
+                    return Meteor.user().balance.spendable;
+                }
+            }
+        }
+        return 0;
     }
 });
 

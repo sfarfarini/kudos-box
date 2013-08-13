@@ -6,7 +6,12 @@ Meteor.methods({
     },
 
     removeFromDomain: function(user_id) {
-        return Users.update({_id: user_id}, { $set : {'profile.domain': null }});
+        var user = Users.findOne({_id: user_id});
+        console.log(user);
+        if (user.profile.admin) {
+            Domains.update({name: user.profile.domain}, {$set: {admin: null}});
+        }
+        return Users.update({_id: user_id}, { $set : {'profile.domain': null, 'profile.admin': false }});
     },
 
     giveAdminRights: function(user_id)  {

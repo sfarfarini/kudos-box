@@ -21,7 +21,6 @@ Meteor.startup(function () {
         return findOrCreateUser(new User(
             {
                 _id: _id,
-                enabled: true,
                 profile: {
                     name: name,
                     email: _id.replace(/_/g, '') + "@byte-code.com",

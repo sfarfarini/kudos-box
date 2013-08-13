@@ -2,11 +2,31 @@
     <div class="row">
         <div class="span12">
             <fieldset>
-                <legend>Administration of {{domain}} domain</legend>
+                <legend>Administration of {{domain.name}} domain</legend>
                 {{> users_table}}
-                <a class='drop btn btn-danger' href="#">Drop kudos :(</a>
-                <a class='dropall btn btn-danger' href="#">Drop all kudos :'(</a>
             </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <form class="form-inline">
+                <fieldset>
+                    <legend>Domain settings</legend>
+
+                    <div class="input-prepend input-append">
+                        <button class="less_days btn">
+                            <i class="icon-minus"/>
+                        </button>
+                        <input class="input-xmini" type="text" value="{{domain.rules.period}}">
+                        <button class="more_days btn">
+                            <i class="icon-plus"/>
+                        </button>
+                    </div>
+
+                    <input class="input-medium" type="text" placeholder="" value="{{domain.rules.kudosForPeriod}}"/>
+                    <input class="input-medium" type="text" placeholder="" value="{{domain.rules.maxSpendableKudosAllowed}}"/>
+                </fieldset>
+            </form>
         </div>
     </div>
 </template>

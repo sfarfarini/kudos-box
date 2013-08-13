@@ -16,8 +16,14 @@ subscribeDomain = function(domainName, user) {
             }
         });
         Domains.insert(domain);
-        systemCron.addScheduleJobs(30, updateBalance(domain));
-        console.log(systemCron);
+        //rimuoverlo quando il dominio viene eliminato?
+        var domainCron = new Meteor.Cron({
+            events : {
+                //codification for 'once a minute'
+                "1 * * * *" : updateBalance(domain)
+            }
+        });
+        console.log('CIAO! ' + domainCron);
     } else {
         if (domain.admin == null) {
             Domains.update({_id: domain._id}, {$set: {admin: user._id}});

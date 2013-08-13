@@ -1,7 +1,4 @@
 Meteor.startup(function () {
-    
-    systemCron = new Cron(1);
-    console.log(systemCron);
 
     var domain = function(name) {
 

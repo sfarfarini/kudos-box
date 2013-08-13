@@ -142,4 +142,4 @@ sendNotificationEmail = function(fromUser, toUser, kudo) {
     };
     
     Email.send(options);
-}
+};

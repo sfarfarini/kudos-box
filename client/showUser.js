@@ -5,9 +5,11 @@ Template.showUser.user = function() {
 
 Template.showUser.events({
 
-    'mouseover li.domain' : function() {
-        Session.set('domain.edit', true);
-        console.log(Session.get('domain.edit'));
+    'click a.leave_domain' : function(e, t) {
+        e.preventDefault();
+        Meteor.call("removeFromDomain", Session.get('showUser._id'), function(e, r) {
+            console.log(e);
+        });
     }
 });
 

@@ -10,13 +10,7 @@
                 <ul class="inline">
                     <li><i class="icon-envelope"/> Email: {{user.profile.email}}</li>
                     <li><i class="icon-map-marker"/> Domain: {{user.profile.domain}}</li>
-                    <li>
-                        {{#if user.enabled}}
-                        <i class="icon-eye-open"/> Status: enabled
-                        {{else}}
-                        <i class="icon-eye-close"/> Status: disabled <i>(you cannot send or receive kudos)</i>
-                        {{/if}}
-                    </li>
+                    <li><a class="leave_domain"><i class="icon-remove"/> <small><i>Leave domain</i></small></a></li>
                 </ul>
                 <ul class="inline">
                     <li>

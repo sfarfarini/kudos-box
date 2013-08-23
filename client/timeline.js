@@ -1,6 +1,6 @@
 var PAGE_SIZE = 10;
 alertList = new Meteor.Collection();
-Meteor.call('updateBalance', Users.findOne({"_id": Meteor.userId()}).profile.domain);
+//Meteor.call('updateBalance', Users.findOne({"_id": Meteor.userId()}).profile.domain);
 
 Template.kudo_form.rendered = function() {
     return $('input[name=to]').typeahead({

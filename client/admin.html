@@ -7,8 +7,34 @@
                 <a class='drop btn btn-danger' href="#">Drop kudos :(</a>
                 <a class='dropall btn btn-danger' href="#">Drop all kudos :'(</a>
             </fieldset>
+            {{> configLM}}
         </div>
     </div>
+</template>
+
+<template name="configLM">
+            <div>
+                <form class='form-horizontal'>
+                    <legend>Config Love Machine</legend>
+                    <div class="input-append">
+                        <label>Period?</label>
+                        <input type="number" class="input" name="period" autocomplete="off">
+                        <div class="btn-group">
+                            <button class="period btn btn-primary">Save</button>
+                        </div>
+                        <label>Kudos?</label>
+                        <input type="number" class="input" name="kudos" autocomplete="off">
+                        <div class="btn-group">
+                            <button class="kudos btn btn-primary">Save</button>
+                        </div>
+                        <label>Max Spendable?</label>
+                        <input type="number" class="input"name="max" autocomplete="off">
+                        <div class="btn-group">
+                            <button class="max btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
 </template>
 
 <template name="users_table">

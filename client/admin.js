@@ -103,4 +103,26 @@ Template.user_detail.events({
     }
 });
 
-
+Template.configLM.events({
+    
+    'click button.period' : function(event, tmpl) {
+        event.preventDefault();
+        // template data, if any, is available in 'this'
+        var inputPeriod = tmpl.find('[name=period]');
+        Meteor.call('setPeriod', Meteor.user().profile.domain, inputPeriod.value);
+    },
+            
+    'click button.kudos' : function(event, tmpl) {
+        event.preventDefault();
+        // template data, if any, is available in 'this'
+        var inputKudos = tmpl.find('[name=kudos]');
+        Meteor.call('setKudosForPeriod', Meteor.user().profile.domain, inputKudos.value);
+    },
+            
+    'click button.max' : function(event, tmpl) {
+        event.preventDefault();
+        // template data, if any, is available in 'this'
+        var inputMax = tmpl.find('[name=max]');
+        Meteor.call('setMaxKudos', Meteor.user().profile.domain, inputMax.value);
+    }
+});

@@ -15,15 +15,16 @@ subscribeDomain = function(domainName, user) {
                 "maxSpendableKudosAllowed" : 5
             }
         });
-        Domains.insert(domain);
-        //rimuoverlo quando il dominio viene eliminato?
-        var domainCron = new Meteor.Cron({
+        Domains.insert(domain, function(error, result){
+            var domainCron = new Meteor.Cron({
             events : {
                 //codification for 'once a minute'
-                "1 * * * *" : updateBalance(domain)
+                "0 * * * *" : updateBalance(result)
             }
-        });
-        console.log('CIAO! ' + domainCron);
+            });
+            console.log(domainCron);
+        });  
+        console.log(domainCron);
     } else {
         if (domain.admin == null) {
             Domains.update({_id: domain._id}, {$set: {admin: user._id}});

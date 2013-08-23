@@ -139,8 +139,15 @@ Meteor.methods({
         return kudo;
     }, 
     
-    //TEMP FUNCTION!
-    updateBalance: function(domain) {
-       return updateBalance(domain);  
+    setPeriod: function(domain, period){
+        return setPeriod(domain, period);
+    },
+            
+    setKudosForPeriod: function(domain, kudos) {
+        return setKudosForPeriod(domain, kudos);
+    },
+            
+    setMaxKudos: function(domain, max) {
+        return setMaxKudos(domain, max);
     }
 });

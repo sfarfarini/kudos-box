@@ -35,7 +35,7 @@ Template.admin.helpers({
     'domain': function() {
         var user = Meteor.user();
         if (!Meteor.loggingIn()) {
-            return user.profile.domain;
+            return Domains.findOne({name: user.profile.domain});
         }
         return false;
     }

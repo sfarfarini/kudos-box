@@ -4,12 +4,17 @@ Meteor.methods({
     subscribeDomain: function(domain) {
         return subscribeDomain(domain, Meteor.user());
     },
+            
+    createDomain: function(domain) {
+        return createDomain(domain, initKudo);
+    },
 
     removeFromDomain: function(user_id) {
         var user = Users.findOne({_id: user_id});
         console.log(user);
         if (user.profile.admin) {
             Domains.update({name: user.profile.domain}, {$set: {admin: null}});
+            console.log(Domains.findOne({name: user.profile.domain}));
         }
         return Users.update({_id: user_id}, { $set : {'profile.domain': null, 'profile.admin': false }});
     },

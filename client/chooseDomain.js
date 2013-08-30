@@ -38,7 +38,7 @@ Template.groupDomain.helpers({
 
     yourRole: function() {
         var domain = Domains.findOne({name: this.name});
-        return !domain || domain.admin == null;
+        return !domain.admin;
     }
 });
 
@@ -51,6 +51,17 @@ Template.chooseDomain.events({
         var domain = $(checked).attr('value');
 
         Meteor.call('subscribeDomain', domain, function(e, r) {
+            console.log(e);
+        });
+    },
+    
+    'click button.create': function(e, t){
+        
+        e.preventDefault();
+        var newDomain = t.find('[name=newDomain]').value;
+        var initKudo = t.find('[name=initKudo]').value;
+        
+        Meteor.call('createDomain', newDomain, initKudo, function(e, r){
             console.log(e);
         });
     }

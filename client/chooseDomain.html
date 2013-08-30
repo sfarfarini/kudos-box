@@ -4,6 +4,12 @@
         <div class="span12">
             <form>
                 <fieldset>
+                    <legend>Create domain</legend>
+                    <div class="input-append">
+                        <input type="text" class="input" name="newDomain" placeholder='The name of your domain?' autocomplete="off">
+                        <input class="input" type="number" name="initKudo"placeholder="How many initial kudos?" value="{{domain.rules.maxSpendableKudosAllowed}}">
+                        <button type="submit" class="create btn btn-primary">Create</button>
+                    </div>
                     <legend>Choose domain</legend>
                     <div class="row" objName="{{defaultDomainName}}">
                         <div class="span4">
@@ -34,6 +40,8 @@
                     {{#each domains}}
                         {{> groupDomain}}
                     {{/each}}
+                    
+                    
                     <div class="form-actions">
                         <button type="submit" class="subscribe btn btn-primary"><i class="icon-plus icon-white"/> Subscribe!</button>
                     </div>

@@ -14,26 +14,36 @@ subscribeDomain = function(domainName, user) {
                 "kudosForPeriod" : 1,
                 "maxSpendableKudosAllowed" : 5
             }
-        });
-        Domains.insert(domain, function(error, result){
-            var domainCron = new Meteor.Cron({
-            events : {
-                //codification for 'once a minute'
-                "0 * * * *" : updateBalance(result)
-            }
-            });
-            console.log(domainCron);
-        });  
-        console.log(domainCron);
+      });
     } else {
-        if (domain.admin == null) {
+        if (domain.admin === null) {
             Domains.update({_id: domain._id}, {$set: {admin: user._id}});
-            Users.update({_id: user._id}, {$set: {'profile.admin': true}});
-        } else {
-            Users.update({_id: user._id}, {$set: {'profile.admin': false}});
-        }
+            Users.update({_id: user._id}, {$set: {'profile.admin': true}}); 
+        } else
+            Users.update({_id: user._id}, {$set: {'profile.admin': false}}); 
+            //richiesta approvazione
     }
+    console.log(Domains.findOne({name: domainName}));
     return Users.update({'_id': user._id}, {$set: {'profile.domain': domainName, 'balance.spendable': domain.rules.maxSpendableKudosAllowed}});
+};
+
+createDomain = function(domainName, initKudo){
+    
+    
+    var domain = new GroupDomain({
+            'admin': null,
+            'name': domainName,
+            'public': true,
+            'rules': {
+                "period" : 7,
+                "kudosForPeriod" : 1,
+                "maxSpendableKudosAllowed" : initKudo
+            }
+      });
+     Domains.insert(domain); 
+     console.log('CIAO!');
+     console.log(Domains.findOne({name: domainName}));
+     return domain;
 };
 
 emitKudo = function(fromUser, toUser, reason, when) {

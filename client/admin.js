@@ -109,7 +109,10 @@ Template.configLM.events({
         event.preventDefault();
         // template data, if any, is available in 'this'
         var inputPeriod = tmpl.find('[name=period]');
-        Meteor.call('setPeriod', Meteor.user().profile.domain, inputPeriod.value);
+        Meteor.call('setPeriod', Meteor.user().profile.domain, inputPeriod.value, function(){
+                    console.log(Domains.findOne({'name' : Meteor.user().profile.domain}).rules.period);
+
+        });
     },
             
     'click button.kudos' : function(event, tmpl) {

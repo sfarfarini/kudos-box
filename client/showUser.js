@@ -10,6 +10,7 @@ Template.showUser.events({
         Meteor.call("removeFromDomain", Session.get('showUser._id'), function(e, r) {
             console.log(e);
         });
+        
     }
 });
 

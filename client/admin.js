@@ -6,16 +6,32 @@ Template.admin.events({
 
     'click button.less_days': function(e, t) {
         e.preventDefault();
-        Meteor.call('decrementPeriod', getCurrentDomainByUser(Meteor.user()), function(e, r) {
-            console.log(e);
-        });
+        Meteor.call('decrementPeriod', getCurrentDomainByUser(Meteor.user()));
     },
 
     'click button.more_days': function(e, t) {
         e.preventDefault();
-        Meteor.call('incrementPeriod', getCurrentDomainByUser(Meteor.user()), function(e, r) {
-            console.log(e);
-        });
+        Meteor.call('incrementPeriod', getCurrentDomainByUser(Meteor.user()));
+    },
+
+    'click button.less_kudos': function(e, t) {
+        e.preventDefault();
+        Meteor.call('decrementAwarded', getCurrentDomainByUser(Meteor.user()));
+    },
+
+    'click button.more_kudos': function(e, t) {
+        e.preventDefault();
+        Meteor.call('incrementAwarded', getCurrentDomainByUser(Meteor.user()));
+    },
+
+    'click button.less_spendable': function(e, t) {
+        e.preventDefault();
+        Meteor.call('decrementDomainSpendable', getCurrentDomainByUser(Meteor.user()));
+    },
+
+    'click button.more_spendable': function(e, t) {
+        e.preventDefault();
+        Meteor.call('incrementDomainSpendable', getCurrentDomainByUser(Meteor.user()));
     }
 });
 
@@ -104,32 +120,5 @@ Template.user_detail.events({
         Meteor.call('decrementSpendable', this, function(e, r) {
             console.log(e);
         });
-    }
-});
-
-Template.configLM.events({
-    
-    'click button.period' : function(event, tmpl) {
-        event.preventDefault();
-        // template data, if any, is available in 'this'
-        var inputPeriod = tmpl.find('[name=period]');
-        Meteor.call('setPeriod', Meteor.user().profile.domain, inputPeriod.value, function(){
-                    console.log(Domains.findOne({'name' : Meteor.user().profile.domain}).rules.period);
-
-        });
-    },
-            
-    'click button.kudos' : function(event, tmpl) {
-        event.preventDefault();
-        // template data, if any, is available in 'this'
-        var inputKudos = tmpl.find('[name=kudos]');
-        Meteor.call('setKudosForPeriod', Meteor.user().profile.domain, inputKudos.value);
-    },
-            
-    'click button.max' : function(event, tmpl) {
-        event.preventDefault();
-        // template data, if any, is available in 'this'
-        var inputMax = tmpl.find('[name=max]');
-        Meteor.call('setMaxKudos', Meteor.user().profile.domain, inputMax.value);
     }
 });

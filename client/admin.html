@@ -8,55 +8,77 @@
         </div>
     </div>
     <div class="row">
-        <div class="span12">
-            <form class="form-inline">
+        <div class="span6">
+            <form class="form-horizontal">
                 <fieldset>
                     <legend>Domain settings</legend>
-
-                    <div class="input-prepend input-append">
-                        <button class="less_days btn">
-                            <i class="icon-minus"/>
-                        </button>
-                        <input class="input-xmini" type="text" value="{{domain.rules.period}}">
-                        <button class="more_days btn">
-                            <i class="icon-plus"/>
-                        </button>
+                    <div class="control-group">
+                        <label class="control-label" for="days">Period</label>
+                        <div class="controls">
+                            <div class="input-prepend input-append">
+                                <button class="less_days btn">
+                                    <i class="icon-minus"/>
+                                </button>
+                                <input class="input-xmini" id="days" type="text" value="{{domain.rules.period}}">
+                                <button class="more_days btn">
+                                    <i class="icon-plus"/>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-
-                    <input class="input-medium" type="text" placeholder="" value="{{domain.rules.kudosForPeriod}}"/>
-                    <input class="input-medium" type="text" placeholder="" value="{{domain.rules.maxSpendableKudosAllowed}}"/>
+                    <div class="control-group">
+                        <label class="control-label" for="kudos">Awarded kudos</label>
+                        <div class="controls">
+                            <div class="input-prepend input-append">
+                                <button class="less_kudos btn">
+                                    <i class="icon-minus"/>
+                                </button>
+                                <input class="input-xmini" id="kudos" type="text" value="{{domain.rules.kudosForPeriod}}">
+                                <button class="more_kudos btn">
+                                    <i class="icon-plus"/>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="spendable">Spendable kudos</label>
+                        <div class="controls">
+                            <div class="input-prepend input-append">
+                                <button class="less_spendable btn">
+                                    <i class="icon-minus"/>
+                                </button>
+                                <input class="input-xmini" id="spendable" type="text" value="{{domain.rules.maxSpendableKudosAllowed}}">
+                                <button class="more_spendable btn">
+                                    <i class="icon-plus"/>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span6">
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>Machine status</legend>
+                    <div class="control-group">
+                        {{#if isStarted}}
+                        <label class="control-label">The love machine is started</label>
+                        {{else}}
+                        <label class="control-label">The love machine is stopped</label>
+                        {{/if}}
+                        <div class="controls">
+                            {{#if isStarted}}
+                            <button class="btn btn-danger">Stop love machine</button>
+                            {{else}}
+                            <button class="btn btn-primary">Start love machine</button>
+                            {{/if}}
+                        </div>
+                    </div>
                 </fieldset>
             </form>
         </div>
     </div>
-    <div class="row">
-        <div class="span12">
-            {{> configLM}}
-        </div>
-    </div>
-</template>
-
-<template name="configLM">
-    <form class='form-horizontal'>
-        <legend>Config Love Machine</legend>
-        <div class="input-append">
-            <label>Period?</label>
-            <input type="number" class="input" name="period" autocomplete="off">
-            <div class="btn-group">
-                <button class="period btn btn-primary">Save</button>
-            </div>
-            <label>Kudos?</label>
-            <input type="number" class="input" name="kudos" autocomplete="off">
-            <div class="btn-group">
-                <button class="kudos btn btn-primary">Save</button>
-            </div>
-            <label>Max Spendable?</label>
-            <input type="number" class="input"name="max" autocomplete="off">
-            <div class="btn-group">
-                <button class="max btn btn-primary">Save</button>
-            </div>
-        </div>
-    </form>
 </template>
 
 <template name="users_table">
@@ -81,7 +103,7 @@
         {{/each}}
         </tbody>
     </table>
-    <button class="resetUsers btn btn-info">Fix Counters</button>
+    <!--<button class="resetUsers btn btn-info">Fix Counters</button>-->
 </template>
 
 <template name="user_detail">

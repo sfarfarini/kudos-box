@@ -12,15 +12,3 @@ updateBalance = function(domain) {
         console.log('updated');
     }
 };
-
-setPeriod = function(domain, period){
-    return Domains.update({'name': domain}, {$set : {'rules.period': period}});  
-};
-
-setKudosForPeriod = function(domain, kudos) {
-    return Domains.update({'name': domain}, {$set : {'rules.kudosForPeriod' : kudos}}); 
-};
-
-setMaxKudos = function(domain, limit) {
-    return Domains.update({'name': domain}, {$set : {'rules.maxSpendableKudosAllowed' : limit}}); 
-}

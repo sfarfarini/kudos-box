@@ -2,6 +2,7 @@
 Meteor.methods({
 
     subscribeDomain: function(domain) {
+        console.log("User: " + Meteor.user()._id + " Domain: " + domain);
         return subscribeDomain(domain, Meteor.user());
     },
             
@@ -76,8 +77,6 @@ Meteor.methods({
                 toId: user._id
             }).count();
 
-            console.log('UPDATE BALANCE {name} @ {domain}. S = {newSent} ({sent}), R = {newReceived} ({received})'.assign( profile, actual ));
-
             profile.sent = actual.newSent;
             profile.received = actual.newReceived;
 
@@ -123,12 +122,14 @@ Meteor.methods({
         return user;
     },
 
+    //TODO REMOVE! Now useless!
     // Temporary method
     removeLastKudo: function() {
         var one = Kudos.findOne({}, {sort: {when: -1}});
         Kudos.remove(one._id);
     },
 
+    //TODO REMOVE! Now useless!
     // Moar temporary method
     removeAllKudos: function() {
         Kudos.remove({ _id: /^.*/ });

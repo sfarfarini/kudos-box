@@ -5,45 +5,36 @@ subscribeDomain = function(domainName, user) {
     //check if domain already exists or not
     var domain = Domains.findOne({name: domainName});
     if (!domain) {
-        domain = new GroupDomain({
-            'admin': user._id,
-            'name': domainName,
-            'public': true,
-            'rules': {
-                "period" : 7,
-                "kudosForPeriod" : 1,
-                "maxSpendableKudosAllowed" : 5
-            }
-      });
+
+        domain = createDomain(domainName, user, 5);
+        Users.update({_id: user._id}, {$set: {'profile.admin': true}});
     } else {
+
         if (domain.admin === null) {
             Domains.update({_id: domain._id}, {$set: {admin: user._id}});
-            Users.update({_id: user._id}, {$set: {'profile.admin': true}}); 
-        } else
-            Users.update({_id: user._id}, {$set: {'profile.admin': false}}); 
-            //richiesta approvazione
+            Users.update({_id: user._id}, {$set: {'profile.admin': true}});
+        } else {
+            Users.update({_id: user._id}, {$set: {'profile.admin': false}});
+        }
     }
-    console.log(Domains.findOne({name: domainName}));
+
     return Users.update({'_id': user._id}, {$set: {'profile.domain': domainName, 'balance.spendable': domain.rules.maxSpendableKudosAllowed}});
 };
 
-createDomain = function(domainName, initKudo){
-    
-    
+createDomain = function(domainName, user, initKudo) {
+
     var domain = new GroupDomain({
-            'admin': null,
-            'name': domainName,
-            'public': true,
-            'rules': {
-                "period" : 7,
-                "kudosForPeriod" : 1,
-                "maxSpendableKudosAllowed" : initKudo
-            }
-      });
-     Domains.insert(domain); 
-     console.log('CIAO!');
-     console.log(Domains.findOne({name: domainName}));
-     return domain;
+        'admin': user ? user._id : null,
+        'name': domainName,
+        'public': true,
+        'rules': {
+            "period" : 7,
+            "kudosForPeriod" : 1,
+            "maxSpendableKudosAllowed" : initKudo
+        }
+    });
+    Domains.insert(domain);
+    return domain;
 };
 
 emitKudo = function(fromUser, toUser, reason, when) {
@@ -57,22 +48,15 @@ emitKudo = function(fromUser, toUser, reason, when) {
         when: when
     });
 
-    console.log("KUDO with {_id} in {domain} from {from} to {to} because {reason} ".assign({
-        _id: kudo._id,
-        from: fromUser.profile.name,
-        to:   toUser.profile.name,
-        domain: kudo.domain,
-        reason: kudo.reason,
-        when: kudo.when
-    }));
+    console.log('KUDO with ' + kudo._id + ' in ' + kudo.domain + ' from ' + fromUser.profile.name + ' to ' + toUser.profile.name + ' because ' + kudo.reason);
 
     Users.update(fromUser._id, {$inc: {'balance.sent': 1, 'balance.spendable': -1}});
     Users.update(toUser._id, {$inc: {'balance.received': 1, 'balance.currency': 1}});
-    
+
     Kudos.insert(kudo);
-    
+
     sendNotificationEmail(fromUser, toUser, kudo);
-    
+
     return kudo;
 };
 
@@ -84,10 +68,7 @@ emitComment = function(kudo, author, message) {
         when : new Date()
     };
 
-    console.log("Kudo {kudo} commented by {author}".assign({
-        kudo: kudo._id,
-        author: author._id
-    }));
+    console.log('Kudo ' + kudo._id + ' commented by ' + author._id);
 
     Kudos.update(kudo._id, {$push: {'comments' : comment}, $inc: {'commentsCount': 1}});
 };
@@ -122,7 +103,7 @@ sendInvitationEmail = function(userId) {
     var options = {
         to: invited.profile.email,
         from: 'kudos@byte-code.com',
-        subject: "Ehi, {name} wants you in Kudo Box!".assign(referral.profile),
+        subject: "Ehi, " + referral.profile + " wants you in Kudo Box!",
         text: "Visit http://kudo-box.meteor.com and join us!"
     };
 
@@ -137,7 +118,7 @@ reconnectAccounts = function(email) {
         var oldUser = Users.findOne({"profile.email": email, info: {$exists: true}}); // creepy
         var newUser = Users.findOne({"profile.email": email, 'services.google': {$exists: true}});
 
-        console.log("RECONNECT {profile.email}".assign(oldUser, {newId: newUser._id}));
+        console.log("RECONNECT " + oldUser.profile.email);
         // we have a newUser invitation
         newUser.info = oldUser;
         newUser.profile.received = oldUser.profile.received;
@@ -154,9 +135,9 @@ sendNotificationEmail = function(fromUser, toUser, kudo) {
     var options = {
         to: toUser.profile.email,
         from: 'kudos@byte-code.com',
-        subject: "Ehi, {name} gave you some love!".assign(fromUser.profile),
-        text: "Visit http://kudo-box.meteor.com/share/{_id} and see your kudo!".assign(kudo)
+        subject: "Ehi, " + fromUser.profile + " gave you some love!",
+        text: "Visit http://kudo-box.meteor.com/share/"+ kudo +" and see your kudo!"
     };
-    
+
     Email.send(options);
 };

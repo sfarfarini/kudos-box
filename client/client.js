@@ -13,3 +13,18 @@ createAlert = function(level, message, sticky) {
     });
 };
 
+getUserWithoutDomain = function() {
+    return Users.findOne({_id: Session.get('userWithoutDomain')});
+};
+
+getDefaultDomainByUser = function(user) {
+    return Domains.findOne({name: user.profile.email.split('@')[1]});
+};
+
+getCurrentDomainByUser = function(user) {
+    if (!Meteor.loggingIn()) {
+        return Domains.findOne({name: user.profile.domain});
+    }
+    return false;
+};
+

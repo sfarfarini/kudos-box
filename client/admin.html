@@ -5,7 +5,6 @@
                 <legend>Administration of {{domain.name}} domain</legend>
                 {{> users_table}}
             </fieldset>
-            {{> configLM}}
         </div>
     </div>
     <div class="row">
@@ -30,31 +29,34 @@
             </form>
         </div>
     </div>
+    <div class="row">
+        <div class="span12">
+            {{> configLM}}
+        </div>
+    </div>
 </template>
 
 <template name="configLM">
-            <div>
-                <form class='form-horizontal'>
-                    <legend>Config Love Machine</legend>
-                    <div class="input-append">
-                        <label>Period?</label>
-                        <input type="number" class="input" name="period" autocomplete="off">
-                        <div class="btn-group">
-                            <button class="period btn btn-primary">Save</button>
-                        </div>
-                        <label>Kudos?</label>
-                        <input type="number" class="input" name="kudos" autocomplete="off">
-                        <div class="btn-group">
-                            <button class="kudos btn btn-primary">Save</button>
-                        </div>
-                        <label>Max Spendable?</label>
-                        <input type="number" class="input"name="max" autocomplete="off">
-                        <div class="btn-group">
-                            <button class="max btn btn-primary">Save</button>
-                        </div>
-                    </div>
-                </form>
+    <form class='form-horizontal'>
+        <legend>Config Love Machine</legend>
+        <div class="input-append">
+            <label>Period?</label>
+            <input type="number" class="input" name="period" autocomplete="off">
+            <div class="btn-group">
+                <button class="period btn btn-primary">Save</button>
             </div>
+            <label>Kudos?</label>
+            <input type="number" class="input" name="kudos" autocomplete="off">
+            <div class="btn-group">
+                <button class="kudos btn btn-primary">Save</button>
+            </div>
+            <label>Max Spendable?</label>
+            <input type="number" class="input"name="max" autocomplete="off">
+            <div class="btn-group">
+                <button class="max btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
 </template>
 
 <template name="users_table">

@@ -4,14 +4,18 @@ Template.admin.created = function() {
 
 Template.admin.events({
 
-    'click a.drop': function() {
-        Meteor.call('removeLastKudo');
-        return false;
+    'click button.less_days': function(e, t) {
+        e.preventDefault();
+        Meteor.call('decrementPeriod', getCurrentDomainByUser(Meteor.user()), function(e, r) {
+            console.log(e);
+        });
     },
 
-    'click a.dropall': function() {
-        Meteor.call('removeAllKudos');
-        return false;
+    'click button.more_days': function(e, t) {
+        e.preventDefault();
+        Meteor.call('incrementPeriod', getCurrentDomainByUser(Meteor.user()), function(e, r) {
+            console.log(e);
+        });
     }
 });
 

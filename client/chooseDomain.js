@@ -10,6 +10,11 @@ Template.chooseDomain.helpers({
         return user.profile.email.split('@')[1];
     },
 
+    defaultDomainNotExists: function() {
+        var user = getUserWithoutDomain();
+        return !getDefaultDomainByUser(user);
+    },
+
     exists: function() {
         var user = Users.findOne({_id: Session.get('userWithoutDomain')});
         return Domains.findOne({name: user.profile.email.split('@')[1]});

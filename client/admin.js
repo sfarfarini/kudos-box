@@ -32,6 +32,16 @@ Template.admin.events({
     'click button.more_spendable': function(e, t) {
         e.preventDefault();
         Meteor.call('incrementDomainSpendable', getCurrentDomainByUser(Meteor.user()));
+    },
+            
+    'click button.btn_start' : function(e, t) {
+        e.preventDefault();
+        Meteor.call('startLoveMachine', getCurrentDomainByUser(Meteor.user()));
+    },
+            
+    'click button.btn_stop' : function(e, t) {
+        e.preventDefaul();
+        Meteor.call('stopLoveMachine', getCurrentDomainByUser(Meteor.user()));
     }
 });
 
@@ -58,7 +68,15 @@ Template.admin.helpers({
             return Domains.findOne({name: user.profile.domain});
         }
         return false;
-    }
+    },
+    
+    'isStarted' : function(){
+        var user = Meteor.user();
+        if (!Meteor.loggingIn()) {
+            return Domains.findOne({name: user.profile.domain}).started;
+        }  
+        return false;
+     }
 });
 
 Template.user_detail.helpers({

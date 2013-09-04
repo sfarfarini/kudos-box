@@ -2,7 +2,6 @@
 Meteor.methods({
 
     subscribeDomain: function(domain) {
-        console.log("User: " + Meteor.user()._id + " Domain: " + domain);
         return subscribeDomain(domain, Meteor.user());
     },
             
@@ -143,17 +142,5 @@ Meteor.methods({
         var kudo = Kudos.findOne(kudoId);
         kudo.from = Kudos.find
         return kudo;
-    }, 
-    
-    setPeriod: function(domain, period){
-        return setPeriod(domain, period);
     },
-            
-    setKudosForPeriod: function(domain, kudos) {
-        return setKudosForPeriod(domain, kudos);
-    },
-            
-    setMaxKudos: function(domain, max) {
-        return setMaxKudos(domain, max);
-    }
 });

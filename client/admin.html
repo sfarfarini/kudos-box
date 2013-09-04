@@ -63,9 +63,11 @@
                     <legend>Machine status</legend>
                     <div class="control-group">
                         {{#if isStarted}}
-                        <label class="control-label">The love machine is started</label>
+                        <button class="btn btn-danger">Stop love machine</button>
+                        <label>The love machine is started</label>
                         {{else}}
-                        <label class="control-label">The love machine is stopped</label>
+                        <button class="btn btn-primary">Start love machine</button>
+                        <label>The love machine is stopped</label>
                         {{/if}}
                         <div class="controls">
                             {{#if isStarted}}

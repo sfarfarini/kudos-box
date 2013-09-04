@@ -70,13 +70,16 @@ Template.admin.helpers({
         return false;
     },
     
-    'isStarted' : function(){
+    'isStarted' : function() {
         var user = Meteor.user();
-        if (!Meteor.loggingIn()) {
-            return Domains.findOne({name: user.profile.domain}).started;
-        }  
+        if (user) {
+            var domain = Domains.findOne({name: user.profile.domain});
+            if (!Meteor.loggingIn() && domain) {
+                return domain.started;
+            }
+        }
         return false;
-     }
+    }
 });
 
 Template.user_detail.helpers({

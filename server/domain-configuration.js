@@ -23,18 +23,18 @@ Meteor.methods({
     incrementDomainSpendable: function(domain) {
         return Domains.update({_id: domain._id}, {$inc: {'rules.maxSpendableKudosAllowed': 1}});
     },
-    
-    startLoveMachine: function(domain){
-      if (!domain.rules.counterLeft) {
-          Domains.update({_id: domain._id}, {$set: {'counterLeft': Domains.findOne({name: Meteor.user().profile.domain}).rules.period}});
-          Domains.update({_id: domain._id}, {$set: {'started': true}});
-      }
-      else {
-          Domains.update({_id: domain._id}, {$set: {'started': true}});
-      }
+
+    startLoveMachine: function(domain) {
+        if (!domain.rules.counterLeft) {
+            Domains.update({_id: domain._id}, {$set: {'counterLeft': Domains.findOne({name: Meteor.user().profile.domain}).rules.period}});
+            Domains.update({_id: domain._id}, {$set: {'started': true}});
+        }
+        else {
+            Domains.update({_id: domain._id}, {$set: {'started': true}});
+        }
     },
-            
-    stopLoveMachine: function(domain){
-         Domains.update({_id: domain._id}, {$set: {'started': false}});
+
+    stopLoveMachine: function(domain) {
+        Domains.update({_id: domain._id}, {$set: {'started': false}});
     }
 });

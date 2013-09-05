@@ -155,5 +155,10 @@ Meteor.methods({
             
     setMaxKudos: function(domain, max) {
         return setMaxKudos(domain, max);
+    },
+    
+    alarmKudo: function() {
+        console.log('ciao');
+        alarmKudo(); 
     }
 });

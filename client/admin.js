@@ -41,6 +41,7 @@ Template.admin.events({
             
     'click button.btn_stop' : function(e, t) {
         e.preventDefaul();
+        console.log("ciao");
         Meteor.call('stopLoveMachine', getCurrentDomainByUser(Meteor.user()));
     }
 });

@@ -1,4 +1,14 @@
 Meteor.startup(function () {
+    Meteor.setInterval(function() {
+        console.log(Domains);
+        for(var domain in Domains.find({'started': true})){
+            Domains.update({_id: domain._id}, {$set : {'counterLeft': domain.counterLeft--}});
+            if (domain.counterLeft === 0) {
+                console.log('ZERO');
+                updateBalance(domain);
+        }
+    }
+}, 15000);
 
     var domain = function(name) {
 
@@ -80,4 +90,16 @@ function findOrCreateDomain(test) {
     return domain;
 }
 
+alarmKudo = function() {
+    var domains = Domains.find({'started': true});
+    console.log(domains);
+    for(var domain in domains){
+        console.log('CIAO');
+        console.log(domain);
+        Domains.update({_id: domain._id}, {$set : {'counterLeft': domain.counterLeft--}});
+        if (domain.counterLeft == 0) {
+            updateBalance(domain);
+        }
+    }
+};
 

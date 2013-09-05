@@ -36,5 +36,6 @@ Meteor.methods({
 
     stopLoveMachine: function(domain) {
         Domains.update({_id: domain._id}, {$set: {'started': false}});
+        console.log(Domains.findOne({_id: domain._id}).started);
     }
 });
